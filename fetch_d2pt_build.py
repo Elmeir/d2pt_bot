@@ -93,10 +93,10 @@ def load_database() -> dict:
 
 
 def save_database(db: dict) -> None:
-    """保存数据库到文件（原子写入：先写临时文件再重命名）。"""
+    """保存数据库到文件（压缩格式，原子写入：先写临时文件再重命名）。"""
     tmp_file = DATABASE_FILE + ".tmp"
     with open(tmp_file, "w", encoding="utf-8") as f:
-        json.dump(db, f, ensure_ascii=False, indent=2)
+        json.dump(db, f, ensure_ascii=False, separators=(",", ":"))
     os.replace(tmp_file, DATABASE_FILE)
 
 
