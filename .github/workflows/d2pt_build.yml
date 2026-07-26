@@ -41,5 +41,5 @@ jobs:
           git config --local user.name "GitHub Action"
           git add d2pt_core_build.json
           # 仅当有变更时才提交
-          git diff --staged --quiet || git commit -m "Update d2pt_core_build.json ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+          git diff --staged --quiet || git commit -m "$(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
