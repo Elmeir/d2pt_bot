@@ -191,10 +191,24 @@ async def fetch_core_build_async(
     position: str,
     item_mapping: dict,
     sem: asyncio.Semaphore,
-) -> list[dict]:
-    """异步获取指定英雄指定位置的 Core Item Build（带重试）。"""
+) -> dict:
+    """异步获取指定英雄指定位置的 Core Item Build 及相关数据（带重试）。
+
+    返回：
+        {
+            "core_build": [...],       # 核心物品列表（与原来一致）
+            "start_items": [...],      # anchor_start_items_new（开局物品）
+            "lategame_inventories": [...]  # anchor_lategame_inventories（后期出装）
+        }
+    """
     build_entry = await _fetch_hero_builds_with_retry(hero_slug, hero_id, position, sem)
-    return build_core_items(build_entry, item_mapping)
+    build_data = build_entry.get("build_data", {})
+
+    return {
+        "core_build": build_core_items(build_entry, item_mapping),
+        "start_items": build_data.get("anchor_start_items_new", []),
+        "lategame_inventories": build_data.get("anchor_lategame_inventories", []),
+    }
 
 
 async def build_hero_entry_async(
@@ -249,15 +263,17 @@ async def build_hero_entry_async(
                 }
                 print(f"    {pos}: 抓取失败，无原数据 ({result})")
             failed_count += 1
-        elif result:
+        elif result and result.get("core_build"):
             # 新数据有效：覆盖原数据
             entry[pos] = {
-                "core_build": result,
+                "core_build": result["core_build"],
+                "start_items": result.get("start_items", []),
+                "lategame_inventories": result.get("lategame_inventories", []),
                 "match_count": info["match_count"],
                 "win_rate": _format_win_rate(info["win_rate"]),
             }
             success_count += 1
-            print(f"    {pos}: {len(result)} 物品, {info['match_count']} 场, 胜率 {_format_win_rate(info['win_rate'])}")
+            print(f"    {pos}: {len(result['core_build'])} 物品, {info['match_count']} 场, 胜率 {_format_win_rate(info['win_rate'])}")
         else:
             # core_build 为空（位置比赛数太少）：保留原数据
             if _is_position_valid(existing.get(pos)):
@@ -266,6 +282,8 @@ async def build_hero_entry_async(
             else:
                 entry[pos] = {
                     "core_build": [],
+                    "start_items": [],
+                    "lategame_inventories": [],
                     "match_count": info["match_count"],
                     "win_rate": _format_win_rate(info["win_rate"]),
                 }
