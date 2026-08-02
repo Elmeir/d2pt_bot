@@ -10,8 +10,8 @@ def fetch_and_save(pos):
         "mmr": "7000",
         "position": f"pos {pos}",
         "order_by": "matches",
-        "min_matches": "20",
-        "period": "8",
+        "min_matches": "1",
+        "period": "patch",
         "legacy": "false"
     }
     query_string = "&".join(f"{k}={urllib.parse.quote(str(v))}" for k, v in params.items())
