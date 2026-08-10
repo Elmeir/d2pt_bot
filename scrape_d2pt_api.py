@@ -17,9 +17,9 @@ CORE 判定：
     pip install curl_cffi
 
 用法：
-    python scrape_d2pt_api.py              # 默认 Snapfire，自动选择比赛最多的位置
-    python scrape_d2pt_api.py Anti-Mage    # 指定英雄，自动选择位置
-    python scrape_d2pt_api.py Snapfire "pos 4"  # 指定英雄和位置（pos 1~5）
+    python fetch_d2pt_build_api.py              # 默认 Snapfire，自动选择比赛最多的位置
+    python fetch_d2pt_build_api.py Anti-Mage    # 指定英雄，自动选择位置
+    python fetch_d2pt_build_api.py Snapfire "pos 4"  # 指定英雄和位置（pos 1~5）
 
 注意：
     - build API 需要先访问英雄页面获取 cookie，并带 Referer header

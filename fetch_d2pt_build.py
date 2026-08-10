@@ -27,7 +27,7 @@ from urllib.parse import quote
 
 from curl_cffi import requests as cffi_requests
 
-from scrape_d2pt_api import (
+from fetch_d2pt_build_api import (
     BASE,
     OPENDOTA_ITEMS,
     get_positions_info,
