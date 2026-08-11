@@ -20,33 +20,31 @@ GitHub Actions 自动化抓取脚本：定期更新 d2pt_core_build.json。
 import asyncio
 import json
 import os
+import random
 import sys
 import threading
 import time
-from urllib.parse import quote
 
 from curl_cffi import requests as cffi_requests
 
 from fetch_d2pt_build_api import (
     BASE,
-    OPENDOTA_ITEMS,
+    _get_proxy,
+    get_hero_builds,
+    get_item_mapping,
     get_positions_info,
     build_core_items,
-    FALLBACK_ITEMS,
 )
 
 DATABASE_FILE = "d2pt_core_build.json"
 # 最大并发请求数（CI 环境降低并发以减少 Cloudflare 拦截风险）
-CONCURRENCY = 4
+CONCURRENCY = 3
 # 单个请求超时（秒）
-REQUEST_TIMEOUT = 30
+REQUEST_TIMEOUT = 10
 # 单个位置最大重试次数
 MAX_RETRIES = 3
-# 代理配置：通过环境变量 D2PT_PROXY 控制
-# - 未设置 / 空字符串 → 不使用代理（CI 环境直连）
-# - 设置为有效 URL（如 socks5://127.0.0.1:1080）→ 使用该代理（本地开发）
-_proxy_url = os.environ.get("D2PT_PROXY", "").strip()
-_PROXY = {"https": _proxy_url, "http": _proxy_url} if _proxy_url else None
+# 位置请求前的随机小延迟范围（秒），错开发起时刻以降低风控风险
+REQUEST_DELAY_RANGE = (0.2, 0.8)
 # 线程局部存储：每个线程独立的同步 Session（线程安全）
 _thread_local = threading.local()
 
@@ -65,6 +63,16 @@ def _hero_slug_from_info(hero_info: dict) -> str:
     """
     name = hero_info.get("displayName") or hero_info.get("npc") or ""
     return name.strip()
+
+
+def _hero_id(hero_info: dict) -> int | None:
+    """从英雄信息提取 hero_id。"""
+    return hero_info.get("hero_id") or hero_info.get("id")
+
+
+def _hero_display_name(hero_info: dict) -> str:
+    """从英雄信息提取展示名称（兜底为 hero_{id}）。"""
+    return hero_info.get("displayName", f"hero_{_hero_id(hero_info)}")
 
 
 def _format_win_rate(rate: float) -> str:
@@ -101,35 +109,8 @@ def save_database(db: dict) -> None:
 
 
 def _sync_get_hero_builds(hero_slug: str, hero_id: int, position: str) -> dict:
-    """同步获取 hero builds 数据（在线程中执行）。
-
-    流程：
-        1. 先访问英雄页面获取 cookie（绕过 Cloudflare）
-        2. 请求 /api/hero/{hero_id}/builds?position={position}（带 Referer）
-    """
-    session = _get_thread_session()
-    page_url = f"{BASE}/hero/{quote(hero_slug, safe='-')}"
-
-    # 先访问页面获取 cookie
-    session.get(page_url, proxies=_PROXY, timeout=REQUEST_TIMEOUT)
-
-    # 请求 build API（带 Referer）
-    pos_enc = position.replace(" ", "+")
-    url = f"{BASE}/api/hero/{hero_id}/builds?position={pos_enc}"
-    headers = {
-        "Referer": page_url,
-        "Accept": "application/json",
-        "X-Requested-With": "XMLHttpRequest",
-    }
-    r = session.get(url, proxies=_PROXY, timeout=REQUEST_TIMEOUT, headers=headers)
-    r.raise_for_status()
-    data = r.json()
-
-    # API 返回列表，取第一个（最常见 build）
-    # 某些位置比赛数太少时返回空列表，此时返回空结构
-    if isinstance(data, list):
-        return data[0] if data else {"build_data": {}}
-    return data
+    """在线程中调用共享 API 获取 hero builds（使用线程私有 Session）。"""
+    return get_hero_builds(_get_thread_session(), hero_slug, hero_id, position)
 
 
 async def _fetch_hero_builds(hero_slug: str, hero_id: int, position: str,
@@ -159,30 +140,10 @@ async def _fetch_hero_builds_with_retry(
 
 async def get_item_mapping_async(sem: asyncio.Semaphore) -> dict:
     """异步获取物品映射（OpenDota，无 Cloudflare）。"""
-    try:
-        async with sem:
-            data = await asyncio.to_thread(
-                lambda: cffi_requests.Session(impersonate="chrome").get(
-                    OPENDOTA_ITEMS, timeout=REQUEST_TIMEOUT
-                ).json()
-            )
-        mapping = {}
-        for slug, info in data.items():
-            item_id = info.get("id")
-            if item_id is not None:
-                mapping[item_id] = {
-                    "name": info.get("dname") or slug.replace("_", " ").title(),
-                    "image": f"/static/items/{slug}.png",
-                }
-        if mapping:
-            print(f"  从 OpenDota 获取 {len(mapping)} 个物品")
-            return mapping
-    except Exception as e:
-        print(f"  OpenDota API 不可用 ({e})，使用内置映射")
-    return {
-        iid: {"name": name, "image": f"/static/items/{slug}.png"}
-        for iid, (name, slug) in FALLBACK_ITEMS.items()
-    }
+    async with sem:
+        return await asyncio.to_thread(
+            get_item_mapping, cffi_requests.Session(impersonate="chrome")
+        )
 
 
 async def fetch_core_build_async(
@@ -201,6 +162,8 @@ async def fetch_core_build_async(
             "lategame_inventories": [...]  # anchor_lategame_inventories（后期出装）
         }
     """
+    # 随机小延迟，错开同一英雄内各位置的请求发起时刻
+    await asyncio.sleep(random.uniform(*REQUEST_DELAY_RANGE))
     build_entry = await _fetch_hero_builds_with_retry(hero_slug, hero_id, position, sem)
     build_data = build_entry.get("build_data", {})
 
@@ -209,6 +172,32 @@ async def fetch_core_build_async(
         "start_items": build_data.get("anchor_start_items_new", []),
         "lategame_inventories": build_data.get("anchor_lategame_inventories", []),
     }
+
+
+def _position_entry_from_result(result: dict, info: dict) -> dict:
+    """从成功抓取的结果构造位置条目。"""
+    return {
+        "core_build": result["core_build"],
+        "start_items": result.get("start_items", []),
+        "lategame_inventories": result.get("lategame_inventories", []),
+        "match_count": info["match_count"],
+        "win_rate": _format_win_rate(info["win_rate"]),
+    }
+
+
+def _position_placeholder(info: dict, error: str | None = None) -> dict:
+    """构造无有效数据时的占位条目（失败时可附带 error 信息）。"""
+    entry: dict = {
+        "core_build": [],
+        "match_count": info["match_count"],
+        "win_rate": _format_win_rate(info["win_rate"]),
+    }
+    if error is not None:
+        entry["error"] = error
+    else:
+        entry["start_items"] = []
+        entry["lategame_inventories"] = []
+    return entry
 
 
 async def build_hero_entry_async(
@@ -226,9 +215,9 @@ async def build_hero_entry_async(
 
     返回 (entry, success_count, failed_count)
     """
-    hero_id = hero_info.get("hero_id") or hero_info.get("id")
+    hero_id = _hero_id(hero_info)
     hero_slug = _hero_slug_from_info(hero_info)
-    display_name = hero_info.get("displayName", f"hero_{hero_id}")
+    display_name = _hero_display_name(hero_info)
     positions_info = get_positions_info(hero_info)
 
     existing = existing_entry or {}
@@ -237,10 +226,8 @@ async def build_hero_entry_async(
     success_count = 0
     failed_count = 0
 
-    # 全量更新：所有位置都重新抓取
+    # 全量更新：所有位置都重新抓取，并发请求
     positions_to_fetch = list(positions_info.items())
-
-    # 并发请求所有位置
     tasks = [
         fetch_core_build_async(hero_slug, hero_id, pos, item_mapping, sem)
         for pos, _ in positions_to_fetch
@@ -249,59 +236,45 @@ async def build_hero_entry_async(
 
     for (pos, info), result in zip(positions_to_fetch, results):
         if isinstance(result, Exception):
-            # 抓取失败：保留原数据（如果有效）
+            # 抓取失败：保留原数据（如果有效），否则记录 error 占位
             if _is_position_valid(existing.get(pos)):
                 entry[pos] = existing[pos]
                 print(f"    {pos}: 抓取失败，保留原数据 ({result})")
             else:
-                # 原数据也无效，记录 error 占位
-                entry[pos] = {
-                    "core_build": [],
-                    "match_count": info["match_count"],
-                    "win_rate": _format_win_rate(info["win_rate"]),
-                    "error": str(result),
-                }
+                entry[pos] = _position_placeholder(info, str(result))
                 print(f"    {pos}: 抓取失败，无原数据 ({result})")
             failed_count += 1
         elif result and result.get("core_build"):
             # 新数据有效：覆盖原数据
-            entry[pos] = {
-                "core_build": result["core_build"],
-                "start_items": result.get("start_items", []),
-                "lategame_inventories": result.get("lategame_inventories", []),
-                "match_count": info["match_count"],
-                "win_rate": _format_win_rate(info["win_rate"]),
-            }
+            entry[pos] = _position_entry_from_result(result, info)
             success_count += 1
-            print(f"    {pos}: {len(result['core_build'])} 物品, {info['match_count']} 场, 胜率 {_format_win_rate(info['win_rate'])}")
+            print(
+                f"    {pos}: {len(result['core_build'])} 物品, "
+                f"{info['match_count']} 场, 胜率 {_format_win_rate(info['win_rate'])}"
+            )
         else:
-            # core_build 为空（位置比赛数太少）：保留原数据
+            # core_build 为空（位置比赛数太少）：保留原数据，否则空占位
             if _is_position_valid(existing.get(pos)):
                 entry[pos] = existing[pos]
                 print(f"    {pos}: 新数据为空，保留原数据")
             else:
-                entry[pos] = {
-                    "core_build": [],
-                    "start_items": [],
-                    "lategame_inventories": [],
-                    "match_count": info["match_count"],
-                    "win_rate": _format_win_rate(info["win_rate"]),
-                }
+                entry[pos] = _position_placeholder(info)
                 print(f"    {pos}: 新数据为空，无原数据")
             failed_count += 1
 
     # 自动计算 "Most Played"：比赛数量最多的位置
-    best_pos = None
-    best_matches = -1
-    for key, val in entry.items():
-        if key in ("displayName", "Most Played"):
-            continue
-        if isinstance(val, dict) and "match_count" in val:
-            if val["match_count"] > best_matches:
-                best_matches = val["match_count"]
-                best_pos = key
-    if best_pos:
-        entry["Most Played"] = best_pos
+    best = max(
+        (
+            (key, val)
+            for key, val in entry.items()
+            if key not in ("displayName", "Most Played")
+            and isinstance(val, dict) and "match_count" in val
+        ),
+        key=lambda kv: kv[1]["match_count"],
+        default=None,
+    )
+    if best:
+        entry["Most Played"] = best[0]
 
     return entry, success_count, failed_count
 
@@ -324,7 +297,7 @@ async def main_async() -> int:
     print("获取英雄列表 ...")
     try:
         session = cffi_requests.Session(impersonate="chrome")
-        r = session.get(f"{BASE}/api/heroes/list", proxies=_PROXY, timeout=REQUEST_TIMEOUT)
+        r = session.get(f"{BASE}/api/heroes/list", proxies=_get_proxy(), timeout=REQUEST_TIMEOUT)
         r.raise_for_status()
         heroes_data = r.json()
         heroes = heroes_data if isinstance(heroes_data, list) else heroes_data.get("heroes", heroes_data)
@@ -348,8 +321,8 @@ async def main_async() -> int:
     heroes_updated = 0
 
     for i, hero_info in enumerate(heroes, 1):
-        hero_id = hero_info.get("hero_id") or hero_info.get("id")
-        display_name = hero_info.get("displayName", f"hero_{hero_id}")
+        hero_id = _hero_id(hero_info)
+        display_name = _hero_display_name(hero_info)
         existing_entry = db.get(str(hero_id))
 
         print(f"[{i}/{total}] {display_name} (id={hero_id})")

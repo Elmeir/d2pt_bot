@@ -1,19 +1,17 @@
 name: d2pt core build
 
 # 每 7 天自动更新一次 d2pt_core_build.json
-# - 定时：每周日 UTC 0:00 运行（即每周一次）
+# - 定时：每周日 UTC 0:20 运行（即每周一次）
 # - 手动：支持在 GitHub Actions 页面手动触发
 on:
   schedule:
     - cron: '20 0 * * 0'
   workflow_dispatch:
 
-permissions:
-  contents: write  # 允许 GITHUB_TOKEN 推送提交
-
 jobs:
   update-database:
     runs-on: ubuntu-latest
+    timeout-minutes: 120
     env:
       # CI 环境无 SOCKS5 代理，禁用代理直连
       D2PT_PROXY: ""
@@ -35,11 +33,7 @@ jobs:
       - name: Run fetch script
         run: python fetch_d2pt_build.py
 
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add d2pt_core_build.json
-          # 仅当有变更时才提交
-          git diff --staged --quiet || git commit -m "$(TZ="Asia/Shanghai" date +'%Y-%m-%d %H:%M')"
-          git push
+      - name: Commit and push
+        uses: ./.github/actions/commit-push
+        with:
+          files: d2pt_core_build.json

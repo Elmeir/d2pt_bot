@@ -1,0 +1,19 @@
+name: Commit and push
+description: 暂存指定文件并在有变更时提交推送（无变更则跳过）。
+
+inputs:
+  files:
+    description: 需要暂存的文件/通配符（如 "d2pt_pos*.json"）
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Commit and push changes
+      shell: bash
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add ${{ inputs.files }}
+        git diff --staged --quiet || git commit -m "$(TZ="Asia/Shanghai" date +'%Y-%m-%d %H:%M')"
+        git push

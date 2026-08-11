@@ -23,8 +23,8 @@ CORE 判定：
 
 注意：
     - build API 需要先访问英雄页面获取 cookie，并带 Referer header
-    - 若直连 API 被 Cloudflare 拦截，脚本会自动尝试 SOCKS5 代理
-      socks5://127.0.0.1:1080（可通过环境变量 D2PT_PROXY 覆盖）。
+    - 默认使用 SOCKS5 代理 socks5://127.0.0.1:1080 绕过 Cloudflare；
+      可通过环境变量 D2PT_PROXY 覆盖，设为空字符串可禁用代理（CI 直连）。
 """
 
 import json
@@ -68,18 +68,24 @@ FALLBACK_ITEMS = {
 
 
 def _get_proxy() -> dict | None:
-    """从环境变量或默认值获取代理配置。"""
-    proxy = os.environ.get("D2PT_PROXY", DEFAULT_PROXY)
+    """获取代理配置。
+
+    优先级：环境变量 D2PT_PROXY > 默认 SOCKS5 代理。
+    显式将 D2PT_PROXY 设为空字符串可禁用代理（用于 CI 直连）。
+    """
+    proxy = os.environ.get("D2PT_PROXY")
+    if proxy is None:
+        proxy = DEFAULT_PROXY
     if not proxy:
         return None
     return {"https": proxy, "http": proxy}
 
 
 def _request(url: str, session: cffi_requests.Session, use_proxy: bool = True,
-             headers: dict | None = None) -> dict | list:
+             headers: dict | None = None, timeout: int = 30) -> dict | list:
     """发送 GET 请求，必要时使用代理。"""
     proxies = _get_proxy() if use_proxy else None
-    r = session.get(url, proxies=proxies, timeout=30, headers=headers)
+    r = session.get(url, proxies=proxies, timeout=timeout, headers=headers)
     r.raise_for_status()
     return r.json()
 
@@ -150,7 +156,7 @@ def get_hero_info(session: cffi_requests.Session, hero_name: str) -> dict | None
 def get_hero_id(session: cffi_requests.Session, hero_name: str) -> int | None:
     """从 /api/heroes/list 获取英雄 ID。"""
     hero = get_hero_info(session, hero_name)
-    return hero.get("hero_id") or hero.get("id") if hero else None
+    return hero and (hero.get("hero_id") or hero.get("id"))
 
 
 def get_positions_info(hero_info: dict) -> dict[str, dict]:
@@ -241,11 +247,9 @@ def build_core_items(build_entry: dict, item_mapping: dict) -> list[dict]:
     # 注意：pr 为百分比 (0-100)，与 anchor_items/items_mid_late 的小数 (0-1) 不同
     anchor_item_stats = build_data.get("anchor_item_stats", {})
 
-    # 构建物品列表
-    # CORE 判定：pr > 80（与网页端 InventoryV2 组件一致）
-    # 过滤：pr > 5%（网页端 filter 函数: anchor_item_stats[id].pr > 5）
+    # 构建物品列表（判定规则见常量 MIN_DISPLAY_RATE / CORE_PR_THRESHOLD 注释）
     display: list[tuple[int, float, bool]] = []
-    seen_ids: set[int] = set()  # 去重（anchor_build[0] 可能含重复 ID）
+    seen_ids: set[int] = set()  # anchor_build[0] 可能含重复 ID，需去重
     for iid in item_ids:
         if iid in seen_ids:
             continue
@@ -253,18 +257,16 @@ def build_core_items(build_entry: dict, item_mapping: dict) -> list[dict]:
 
         stats = anchor_item_stats.get(str(iid))
         if not stats:
-            # 物品不在统计数据中，跳过
-            continue
+            continue  # 该物品无统计数据，跳过
 
         pr = stats.get("pr", 0) or 0
         avg = stats.get("avg_minute", 0) or 0
 
-        # 过滤：pr > 5%（与网页端一致）
-        if pr <= 5.0:
-            continue
+        if pr <= MIN_DISPLAY_RATE:
+            continue  # 购买率过低，过滤噪音
 
-        # CORE 判定：pr > 80（与网页端 InventoryV2 组件一致）
-        is_core = pr > 80.0
+        # CORE 判定：购买率超过阈值即为核心物品
+        is_core = pr > CORE_PR_THRESHOLD
         display.append((iid, avg, is_core))
 
     # 按 avg_minute 升序排序
@@ -273,16 +275,15 @@ def build_core_items(build_entry: dict, item_mapping: dict) -> list[dict]:
     # 转换为输出格式
     # 注意：网页端 InventoryV2 组件对 avg_minute<=0 显示 "-"（不匹配时间正则），
     # 所以数据库中 avg_minute<=0 时 avg_time 设为 None，与网页端一致
-    result = []
-    for iid, avg, is_core in display:
-        info = item_mapping.get(iid, {})
-        result.append({
-            "item": info.get("name", f"item_{iid}"),
-            "image": info.get("image", ""),
+    return [
+        {
+            "item": item_mapping.get(iid, {}).get("name", f"item_{iid}"),
+            "image": item_mapping.get(iid, {}).get("image", ""),
             "avg_time": f"{round(avg)}m" if avg > 0 else None,
             "is_core": is_core,
-        })
-    return result
+        }
+        for iid, avg, is_core in display
+    ]
 
 
 def print_table(hero: str, position: str, items: list[dict]) -> None:

@@ -1,5 +1,8 @@
 name: d2pt win rate
 
+# 每小时更新一次各位置的胜率数据 d2pt_pos*.json
+# - 定时：每小时第 23 分钟运行
+# - 手动：支持在 GitHub Actions 页面手动触发
 on:
   schedule:
     - cron: '23 * * * *'
@@ -8,6 +11,7 @@ on:
 jobs:
   fetch-stats:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -15,15 +19,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
       - name: Run fetch script
         run: python fetch_d2pt.py
 
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add d2pt_pos*.json
-          git diff --staged --quiet || git commit -m "$(TZ="Asia/Shanghai" date +'%Y-%m-%d %H:%M')"
-          git push
+      - name: Commit and push
+        uses: ./.github/actions/commit-push
+        with:
+          files: d2pt_pos*.json
