@@ -34,8 +34,9 @@ def fetch_and_save(pos):
         first_ts = data[0].get("updated_at")
         if first_ts:
             data[0]["updated_at"] = (
-                datetime.strptime(first_ts, "%Y-%m-%dT%H:%M:%S") + timedelta(hours=8)
-            ).strftime("%Y-%m-%dT%H:%M:%S")
+                datetime.strptime(first_ts.replace("T", " "), "%Y-%m-%d %H:%M:%S")
+                + timedelta(hours=8)
+            ).strftime("%Y-%m-%d %H:%M:%S")
         for hero in data[1:]:
             hero.pop("updated_at", None)
 
