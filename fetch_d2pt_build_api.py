@@ -6,6 +6,9 @@
     - 返回 build_data.anchor_build[0]（Core Item Build 物品 ID 数组）
     - build_data.anchor_item_stats（物品统计：avg_minute, pr）
     - build_data.anchor_items（CORE 物品列表，含 raw_item_id）
+    - build_data.talents（天赋选择：每级 left/right，含 displayName/pr/win_rate）
+    - build_data.abilities_new（最常见的技能加点序列，按 pr 降序）
+    - build_data.abilities（ability_id -> displayName 映射）
 
 CORE 判定：
     物品在 anchor_items 中 → CORE；只在 anchor_build[0] 中 → situational
@@ -109,7 +112,7 @@ def get_item_mapping(session: cffi_requests.Session) -> dict:
             if item_id is not None:
                 mapping[item_id] = {
                     "name": info.get("dname") or slug.replace("_", " ").title(),
-                    "image": f"/static/items/{slug}.png",
+                    "image": f"{slug}.png",
                 }
         if mapping:
             print(f"  从 OpenDota 获取 {len(mapping)} 个物品")
@@ -118,7 +121,7 @@ def get_item_mapping(session: cffi_requests.Session) -> dict:
         print(f"  OpenDota API 不可用 ({e})，使用内置映射")
 
     return {
-        iid: {"name": name, "image": f"/static/items/{slug}.png"}
+        iid: {"name": name, "image": f"{slug}.png"}
         for iid, (name, slug) in FALLBACK_ITEMS.items()
     }
 
@@ -216,12 +219,11 @@ def build_core_items(build_entry: dict, item_mapping: dict) -> list[dict]:
 
     参数：
         build_entry: builds API 返回的字典（含 build_data）
-        item_mapping: item_id -> {name, image}
+        item_mapping: item_id -> {name, image}（当前未使用，保留以兼容调用方）
 
-    返回列表格式（与 scrape_d2pt.py 一致）：
+    返回列表格式：
         {
-            "item": "Bottle",
-            "image": "/static/items/bottle.png",
+            "id": 41,
             "avg_time": "1m",
             "is_core": True
         }
@@ -277,8 +279,7 @@ def build_core_items(build_entry: dict, item_mapping: dict) -> list[dict]:
     # 所以数据库中 avg_minute<=0 时 avg_time 设为 None，与网页端一致
     return [
         {
-            "item": item_mapping.get(iid, {}).get("name", f"item_{iid}"),
-            "image": item_mapping.get(iid, {}).get("image", ""),
+            "id": iid,
             "avg_time": f"{round(avg)}m" if avg > 0 else None,
             "is_core": is_core,
         }
@@ -286,19 +287,101 @@ def build_core_items(build_entry: dict, item_mapping: dict) -> list[dict]:
     ]
 
 
+def build_start_items(build_data: dict) -> list[list]:
+    """根据 builds API 返回的数据构建开局物品列表。
+
+    数据源：build_data.anchor_start_items_new
+    每项为 [item_id 数组, {count, win_rate}]，win_rate 保留 4 位小数。
+    """
+    result = []
+    for item_ids, stats in build_data.get("anchor_start_items_new", []):
+        result.append([
+            item_ids,
+            {
+                "count": stats.get("count", 0),
+                "win_rate": round(stats.get("win_rate", 0), 4),
+            },
+        ])
+    return result
+
+
+def build_talents(build_data: dict) -> list[dict]:
+    """根据 builds API 返回的数据构建天赋选择列表。
+
+    数据源：build_data.talents（每级一个条目，含 left/right 两个可选天赋）。
+
+    输出格式：
+        {
+            "lvl": 10,
+            "left": {"name": "...", "pr": 0.176},
+            "right": {"name": "...", "pr": 0.824},
+            "choice": "rt",   # 更常用一侧："lf" 或 "rt"
+            "win_rate": 0.504
+        }
+    """
+    def _side(side: dict | None) -> dict | None:
+        if not side:
+            return None
+        return {
+            "name": side.get("name"),
+            "pr": round(side.get("pr", 0), 3),
+            "win_rate": round(side.get("win_rate", 0), 3),
+        }
+
+    result = []
+    for talent in build_data.get("talents", []):
+        result.append({
+            "lvl": talent.get("lvl"),
+            "left": _side(talent.get("left")),
+            "right": _side(talent.get("right")),
+            "choice": talent.get("choice"),
+            "win_rate": round(talent.get("win_rate", 0), 3),
+        })
+    return result
+
+
+def build_abilities_new(build_data: dict) -> list[dict]:
+    """根据 builds API 返回的数据构建技能加点序列列表。
+
+    数据源：
+        - build_data.abilities_new：最常见的技能加点模式列表，每项为
+          [ability_id 数组(0~9级), {pr, wins, count, win_rate}]
+        - build_data.abilities：ability_id -> displayName 映射
+
+    输出（按使用率降序，展示最常见的前几种加点序列）：
+        {
+            "pr": 0.0778,
+            "win_rate": 0.524,
+            "build": ["Bramble Maze", "Shadow Realm", ...]   # 0~9 级依次加点
+        }
+    """
+    name_of = {
+        a.get("ability_id"): a.get("displayName")
+        for a in build_data.get("abilities", [])
+        if a.get("ability_id") is not None
+    }
+    result = []
+    for pattern, stats in build_data.get("abilities_new", []):
+        result.append({
+            "pr": round(stats.get("pr", 0), 4),
+            "win_rate": round(stats.get("win_rate", 0), 4),
+            "build": [name_of.get(iid, f"ability_{iid}") for iid in pattern],
+        })
+    return result
+
+
 def print_table(hero: str, position: str, items: list[dict]) -> None:
     """以表格形式打印 Core Item Build 数据。"""
     print(f"\n{'=' * 64}")
     print(f"英雄: {hero} | 位置: {position} | Core Item Build")
     print(f"{'=' * 64}")
-    header = f"{'#':<4} {'物品名称':<24} {'平均时间':<10} {'核心':<6} {'图标'}"
+    header = f"{'#':<4} {'物品ID':<10} {'平均时间':<10} {'核心':<6}"
     print(header)
-    print(f"{'-' * 4} {'-' * 24} {'-' * 10} {'-' * 6} {'-' * 30}")
+    print(f"{'-' * 4} {'-' * 10} {'-' * 10} {'-' * 6}")
 
     for i, it in enumerate(items, 1):
         core_str = "是" if it["is_core"] else "否"
-        img = it["image"] or ""
-        print(f"{i:<4} {it['item']:<24} {it['avg_time'] or '-':<10} {core_str:<6} {img}")
+        print(f"{i:<4} {it['id']:<10} {it['avg_time'] or '-':<10} {core_str:<6}")
 
 
 def fetch_core_build(

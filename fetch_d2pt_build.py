@@ -34,6 +34,9 @@ from fetch_d2pt_build_api import (
     get_item_mapping,
     get_positions_info,
     build_core_items,
+    build_start_items,
+    build_talents,
+    build_abilities_new,
 )
 
 DATABASE_FILE = "d2pt_core_build.json"
@@ -101,10 +104,10 @@ def load_database() -> dict:
 
 
 def save_database(db: dict) -> None:
-    """保存数据库到文件（压缩格式，原子写入：先写临时文件再重命名）。"""
+    """保存数据库到文件（原子写入：先写临时文件再重命名）。"""
     tmp_file = DATABASE_FILE + ".tmp"
     with open(tmp_file, "w", encoding="utf-8") as f:
-        json.dump(db, f, ensure_ascii=False, separators=(",", ":"))
+        json.dump(db, f, ensure_ascii=False, separators=(",", ":"), indent=2)
     os.replace(tmp_file, DATABASE_FILE)
 
 
@@ -159,7 +162,9 @@ async def fetch_core_build_async(
         {
             "core_build": [...],       # 核心物品列表（与原来一致）
             "start_items": [...],      # anchor_start_items_new（开局物品）
-            "lategame_inventories": [...]  # anchor_lategame_inventories（后期出装）
+            "lategame_inventories": [...],  # anchor_lategame_inventories（后期出装）
+            "talents": [...],          # 天赋选择（每级 left/right）
+            "abilities_new": [...]     # 最常见的技能加点序列
         }
     """
     # 随机小延迟，错开同一英雄内各位置的请求发起时刻
@@ -169,8 +174,10 @@ async def fetch_core_build_async(
 
     return {
         "core_build": build_core_items(build_entry, item_mapping),
-        "start_items": build_data.get("anchor_start_items_new", []),
+        "start_items": build_start_items(build_data),
         "lategame_inventories": build_data.get("anchor_lategame_inventories", []),
+        "talents": build_talents(build_data),
+        "abilities_new": build_abilities_new(build_data),
     }
 
 
@@ -180,6 +187,8 @@ def _position_entry_from_result(result: dict, info: dict) -> dict:
         "core_build": result["core_build"],
         "start_items": result.get("start_items", []),
         "lategame_inventories": result.get("lategame_inventories", []),
+        "talents": result.get("talents", []),
+        "abilities_new": result.get("abilities_new", []),
         "match_count": info["match_count"],
         "win_rate": _format_win_rate(info["win_rate"]),
     }
@@ -197,6 +206,8 @@ def _position_placeholder(info: dict, error: str | None = None) -> dict:
     else:
         entry["start_items"] = []
         entry["lategame_inventories"] = []
+        entry["talents"] = []
+        entry["abilities_new"] = []
     return entry
 
 
