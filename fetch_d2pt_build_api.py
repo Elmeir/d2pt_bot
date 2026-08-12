@@ -221,11 +221,11 @@ def build_core_items(build_entry: dict, item_mapping: dict) -> list[dict]:
         build_entry: builds API 返回的字典（含 build_data）
         item_mapping: item_id -> {name, image}（当前未使用，保留以兼容调用方）
 
-    返回列表格式：
+    返回列表格式（缩写字段名以压缩 JSON 体积）：
         {
             "id": 41,
-            "avg_time": "1m",
-            "is_core": True
+            "at": "1m",       # avg_time
+            "ic": True         # is_core
         }
 
     数据源：
@@ -280,8 +280,8 @@ def build_core_items(build_entry: dict, item_mapping: dict) -> list[dict]:
     return [
         {
             "id": iid,
-            "avg_time": f"{round(avg)}m" if avg > 0 else None,
-            "is_core": is_core,
+            "at": f"{round(avg)}m" if avg > 0 else None,
+            "ic": is_core,
         }
         for iid, avg, is_core in display
     ]
@@ -291,18 +291,31 @@ def build_start_items(build_data: dict) -> list[list]:
     """根据 builds API 返回的数据构建开局物品列表。
 
     数据源：build_data.anchor_start_items_new
-    每项为 [item_id 数组, {count, win_rate}]，win_rate 保留 4 位小数。
+    每项为 [item_id 数组, {cnt, wr}]，wr 保留 4 位小数。
     """
     result = []
     for item_ids, stats in build_data.get("anchor_start_items_new", []):
         result.append([
             item_ids,
             {
-                "count": stats.get("count", 0),
-                "win_rate": round(stats.get("win_rate", 0), 4),
+                "cnt": stats.get("count", 0),
+                "wr": round(stats.get("win_rate", 0), 4),
             },
         ])
     return result
+
+
+def simplify_talent_name(name: str) -> str:
+    """简化天赋的内部标识符，去掉 common 前缀以压缩 JSON 体积。
+
+    去掉 "special_bonus_unique_" 和 "special_bonus_" 前缀（先去掉较长的）。
+    例：special_bonus_unique_antimage_5 -> antimage_5
+        special_bonus_hp_200             -> hp_200
+    """
+    for prefix in ("special_bonus_unique_", "special_bonus_"):
+        if name.startswith(prefix):
+            return name[len(prefix):]
+    return name
 
 
 def build_talents(build_data: dict) -> list[dict]:
@@ -310,32 +323,32 @@ def build_talents(build_data: dict) -> list[dict]:
 
     数据源：build_data.talents（每级一个条目，含 left/right 两个可选天赋）。
 
-    输出格式：
+    输出格式（缩写字段名以压缩 JSON 体积）：
         {
-            "lvl": 10,
-            "left": {"name": "...", "pr": 0.176},
-            "right": {"name": "...", "pr": 0.824},
-            "choice": "rt",   # 更常用一侧："lf" 或 "rt"
-            "win_rate": 0.504
+            "l": 10,              # lvl
+            "lf": {"n": "antimage_5", "p": 0.176, "wr": 0.526},  # left
+            "rt": {"n": "hp_200", "p": 0.824, "wr": 0.504},      # right
+            "c": "rt",            # choice
+            "wr": 0.504           # win_rate
         }
     """
     def _side(side: dict | None) -> dict | None:
         if not side:
             return None
         return {
-            "name": side.get("name"),
-            "pr": round(side.get("pr", 0), 3),
-            "win_rate": round(side.get("win_rate", 0), 3),
+            "n": simplify_talent_name(side.get("name", "")),
+            "p": round(side.get("pr", 0), 3),
+            "wr": round(side.get("win_rate", 0), 3),
         }
 
     result = []
     for talent in build_data.get("talents", []):
         result.append({
-            "lvl": talent.get("lvl"),
-            "left": _side(talent.get("left")),
-            "right": _side(talent.get("right")),
-            "choice": talent.get("choice"),
-            "win_rate": round(talent.get("win_rate", 0), 3),
+            "l": talent.get("lvl"),
+            "lf": _side(talent.get("left")),
+            "rt": _side(talent.get("right")),
+            "c": talent.get("choice"),
+            "wr": round(talent.get("win_rate", 0), 3),
         })
     return result
 
@@ -343,29 +356,22 @@ def build_talents(build_data: dict) -> list[dict]:
 def build_abilities_new(build_data: dict) -> list[dict]:
     """根据 builds API 返回的数据构建技能加点序列列表。
 
-    数据源：
-        - build_data.abilities_new：最常见的技能加点模式列表，每项为
-          [ability_id 数组(0~9级), {pr, wins, count, win_rate}]
-        - build_data.abilities：ability_id -> displayName 映射
+    数据源：build_data.abilities_new
+    每项为 [ability_id 数组(0~9级), {pr, wins, count, win_rate}]，保留原始 ability_id。
 
-    输出（按使用率降序，展示最常见的前几种加点序列）：
+    输出（按使用率降序，缩写字段名以压缩 JSON 体积）：
         {
-            "pr": 0.0778,
-            "win_rate": 0.524,
-            "build": ["Bramble Maze", "Shadow Realm", ...]   # 0~9 级依次加点
+            "p": 0.0778,        # pr
+            "wr": 0.5238,       # win_rate
+            "b": [6339, 6341, ...]  # build (ability_id 数组)
         }
     """
-    name_of = {
-        a.get("ability_id"): a.get("displayName")
-        for a in build_data.get("abilities", [])
-        if a.get("ability_id") is not None
-    }
     result = []
     for pattern, stats in build_data.get("abilities_new", []):
         result.append({
-            "pr": round(stats.get("pr", 0), 4),
-            "win_rate": round(stats.get("win_rate", 0), 4),
-            "build": [name_of.get(iid, f"ability_{iid}") for iid in pattern],
+            "p": round(stats.get("pr", 0), 4),
+            "wr": round(stats.get("win_rate", 0), 4),
+            "b": list(pattern),
         })
     return result
 
@@ -380,8 +386,8 @@ def print_table(hero: str, position: str, items: list[dict]) -> None:
     print(f"{'-' * 4} {'-' * 10} {'-' * 10} {'-' * 6}")
 
     for i, it in enumerate(items, 1):
-        core_str = "是" if it["is_core"] else "否"
-        print(f"{i:<4} {it['id']:<10} {it['avg_time'] or '-':<10} {core_str:<6}")
+        core_str = "是" if it["ic"] else "否"
+        print(f"{i:<4} {it['id']:<10} {it['at'] or '-':<10} {core_str:<6}")
 
 
 def fetch_core_build(

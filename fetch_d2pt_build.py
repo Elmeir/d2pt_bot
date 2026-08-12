@@ -3,7 +3,7 @@ GitHub Actions 自动化抓取脚本：定期更新 d2pt_core_build.json。
 
 设计要点：
     - 全量更新：每次运行都重新抓取所有英雄所有位置
-    - 仅覆盖有效数据：新数据有效（core_build 非空且无 error）才覆盖原数据
+    - 仅覆盖有效数据：新数据有效（cb 非空且无 err）才覆盖原数据
     - 错误保留原数据：新抓取失败时保留数据库中原有的有效数据
     - 增量保存：每完成一个英雄即保存一次，避免中途崩溃丢失进度
     - 重试机制：单个位置最多重试 3 次，指数退避
@@ -84,12 +84,12 @@ def _format_win_rate(rate: float) -> str:
 
 
 def _is_position_valid(pos_data: dict | None) -> bool:
-    """检查位置数据是否有效（有 core_build 且无 error）。"""
+    """检查位置数据是否有效（有 cb 且无 err）。"""
     if not isinstance(pos_data, dict):
         return False
-    if pos_data.get("error"):
+    if pos_data.get("err"):
         return False
-    return bool(pos_data.get("core_build"))
+    return bool(pos_data.get("cb"))
 
 
 def load_database() -> dict:
@@ -107,7 +107,7 @@ def save_database(db: dict) -> None:
     """保存数据库到文件（原子写入：先写临时文件再重命名）。"""
     tmp_file = DATABASE_FILE + ".tmp"
     with open(tmp_file, "w", encoding="utf-8") as f:
-        json.dump(db, f, ensure_ascii=False, separators=(",", ":"), indent=2)
+        json.dump(db, f, ensure_ascii=False, separators=(",", ":"))
     os.replace(tmp_file, DATABASE_FILE)
 
 
@@ -158,13 +158,13 @@ async def fetch_core_build_async(
 ) -> dict:
     """异步获取指定英雄指定位置的 Core Item Build 及相关数据（带重试）。
 
-    返回：
+    返回（缩写字段名以压缩 JSON 体积）：
         {
-            "core_build": [...],       # 核心物品列表（与原来一致）
-            "start_items": [...],      # anchor_start_items_new（开局物品）
-            "lategame_inventories": [...],  # anchor_lategame_inventories（后期出装）
-            "talents": [...],          # 天赋选择（每级 left/right）
-            "abilities_new": [...]     # 最常见的技能加点序列
+            "cb": [...],      # core_build 核心物品列表
+            "si": [...],      # start_items 开局物品
+            "lg": [...],      # lategame_inventories 后期出装
+            "tl": [...],      # talents 天赋选择
+            "ab": [...]       # abilities_new 技能加点序列
         }
     """
     # 随机小延迟，错开同一英雄内各位置的请求发起时刻
@@ -173,41 +173,41 @@ async def fetch_core_build_async(
     build_data = build_entry.get("build_data", {})
 
     return {
-        "core_build": build_core_items(build_entry, item_mapping),
-        "start_items": build_start_items(build_data),
-        "lategame_inventories": build_data.get("anchor_lategame_inventories", []),
-        "talents": build_talents(build_data),
-        "abilities_new": build_abilities_new(build_data),
+        "cb": build_core_items(build_entry, item_mapping),
+        "si": build_start_items(build_data),
+        "lg": build_data.get("anchor_lategame_inventories", []),
+        "tl": build_talents(build_data),
+        "ab": build_abilities_new(build_data),
     }
 
 
 def _position_entry_from_result(result: dict, info: dict) -> dict:
     """从成功抓取的结果构造位置条目。"""
     return {
-        "core_build": result["core_build"],
-        "start_items": result.get("start_items", []),
-        "lategame_inventories": result.get("lategame_inventories", []),
-        "talents": result.get("talents", []),
-        "abilities_new": result.get("abilities_new", []),
-        "match_count": info["match_count"],
-        "win_rate": _format_win_rate(info["win_rate"]),
+        "cb": result["cb"],
+        "si": result.get("si", []),
+        "lg": result.get("lg", []),
+        "tl": result.get("tl", []),
+        "ab": result.get("ab", []),
+        "mc": info["match_count"],
+        "wr": _format_win_rate(info["win_rate"]),
     }
 
 
 def _position_placeholder(info: dict, error: str | None = None) -> dict:
     """构造无有效数据时的占位条目（失败时可附带 error 信息）。"""
     entry: dict = {
-        "core_build": [],
-        "match_count": info["match_count"],
-        "win_rate": _format_win_rate(info["win_rate"]),
+        "cb": [],
+        "mc": info["match_count"],
+        "wr": _format_win_rate(info["win_rate"]),
     }
     if error is not None:
-        entry["error"] = error
+        entry["err"] = error
     else:
-        entry["start_items"] = []
-        entry["lategame_inventories"] = []
-        entry["talents"] = []
-        entry["abilities_new"] = []
+        entry["si"] = []
+        entry["lg"] = []
+        entry["tl"] = []
+        entry["ab"] = []
     return entry
 
 
@@ -220,9 +220,9 @@ async def build_hero_entry_async(
     """异步抓取单个英雄所有位置的数据（位置间并发）。
 
     全量更新模式：
-        - 新数据有效（core_build 非空）→ 覆盖原数据
+        - 新数据有效（cb 非空）→ 覆盖原数据
         - 新数据无效/抓取失败 → 保留原数据（如果有）
-        - 原数据也没有 → 记录 error 占位
+        - 原数据也没有 → 记录 err 占位
 
     返回 (entry, success_count, failed_count)
     """
@@ -232,7 +232,7 @@ async def build_hero_entry_async(
     positions_info = get_positions_info(hero_info)
 
     existing = existing_entry or {}
-    entry: dict = {"displayName": display_name}
+    entry: dict = {"n": display_name}
 
     success_count = 0
     failed_count = 0
@@ -255,16 +255,16 @@ async def build_hero_entry_async(
                 entry[pos] = _position_placeholder(info, str(result))
                 print(f"    {pos}: 抓取失败，无原数据 ({result})")
             failed_count += 1
-        elif result and result.get("core_build"):
+        elif result and result.get("cb"):
             # 新数据有效：覆盖原数据
             entry[pos] = _position_entry_from_result(result, info)
             success_count += 1
             print(
-                f"    {pos}: {len(result['core_build'])} 物品, "
+                f"    {pos}: {len(result['cb'])} 物品, "
                 f"{info['match_count']} 场, 胜率 {_format_win_rate(info['win_rate'])}"
             )
         else:
-            # core_build 为空（位置比赛数太少）：保留原数据，否则空占位
+            # cb 为空（位置比赛数太少）：保留原数据，否则空占位
             if _is_position_valid(existing.get(pos)):
                 entry[pos] = existing[pos]
                 print(f"    {pos}: 新数据为空，保留原数据")
@@ -278,14 +278,14 @@ async def build_hero_entry_async(
         (
             (key, val)
             for key, val in entry.items()
-            if key not in ("displayName", "Most Played")
-            and isinstance(val, dict) and "match_count" in val
+            if key not in ("n", "mp")
+            and isinstance(val, dict) and "mc" in val
         ),
-        key=lambda kv: kv[1]["match_count"],
+        key=lambda kv: kv[1]["mc"],
         default=None,
     )
     if best:
-        entry["Most Played"] = best[0]
+        entry["mp"] = best[0]
 
     return entry, success_count, failed_count
 

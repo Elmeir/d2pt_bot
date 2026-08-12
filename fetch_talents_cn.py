@@ -36,6 +36,20 @@ HEADERS = {
 PLACEHOLDER_RE = re.compile(r"\{s:([^}]+)\}")
 
 
+def simplify_talent_name(name: str) -> str:
+    """简化天赋的内部标识符，去掉 common 前缀。
+
+    与 fetch_d2pt_build_api.build_talents 的简化规则保持一致，
+    保证 talents_cn.json 的 key 能匹配 d2pt_core_build.json 中简化的 n。
+    例：special_bonus_unique_antimage_5 -> antimage_5
+        special_bonus_hp_200             -> hp_200
+    """
+    for prefix in ("special_bonus_unique_", "special_bonus_"):
+        if name.startswith(prefix):
+            return name[len(prefix):]
+    return name
+
+
 def _fetch_json(url: str, timeout: int = 30) -> dict | list:
     """发送 GET 请求并返回 JSON 数据。"""
     req = urllib.request.Request(url, headers=HEADERS)
@@ -125,7 +139,7 @@ def resolve_name_loc(name_loc: str, talent_name: str,
 
 
 def extract_talents(hero: dict) -> dict[str, str]:
-    """从英雄数据中提取天赋映射 {name: 替换后的 name_loc}。"""
+    """从英雄数据中提取天赋映射 {简化 name: 替换后的 name_loc}。"""
     abilities = hero.get("abilities", [])
     result: dict[str, str] = {}
     for talent in hero.get("talents", []):
@@ -134,7 +148,7 @@ def extract_talents(hero: dict) -> dict[str, str]:
         resolved = resolve_name_loc(
             name_loc, name, talent.get("special_values", []), abilities
         )
-        result[name] = resolved
+        result[simplify_talent_name(name)] = resolved
     return result
 
 
