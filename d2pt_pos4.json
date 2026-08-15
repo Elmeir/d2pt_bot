@@ -1,64 +1,64 @@
 [
   {
     "hero_id": 2,
-    "matches": 93,
+    "matches": 92,
     "wins": 32,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.023,
+      "lane_avg_adv_pct": -0.0218,
       "best_build_winrate": 0.3525
     },
-    "updated_at": "2026-08-16 04:19:26",
+    "updated_at": "2026-08-16 06:19:23",
     "hero_name": "Axe",
     "npc": "axe",
-    "d2pt_rating": 2966
+    "d2pt_rating": 2967
   },
   {
     "hero_id": 3,
     "matches": 776,
-    "wins": 416,
+    "wins": 418,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0068,
+      "lane_avg_adv_pct": -0.0065,
       "best_build_winrate": 0.5623
     },
     "hero_name": "Bane",
     "npc": "bane",
-    "d2pt_rating": 3093
+    "d2pt_rating": 3099
   },
   {
     "hero_id": 5,
-    "matches": 517,
-    "wins": 233,
+    "matches": 515,
+    "wins": 235,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0214,
+      "lane_avg_adv_pct": -0.0194,
       "best_build_winrate": 0.4845
     },
     "hero_name": "Crystal Maiden",
     "npc": "crystal_maiden",
-    "d2pt_rating": 2938
+    "d2pt_rating": 2947
   },
   {
     "hero_id": 7,
-    "matches": 1338,
-    "wins": 688,
+    "matches": 1334,
+    "wins": 689,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0338,
+      "lane_avg_adv_pct": -0.0337,
       "best_build_winrate": 0.5012
     },
     "hero_name": "Earthshaker",
     "npc": "earthshaker",
-    "d2pt_rating": 3071
+    "d2pt_rating": 3078
   },
   {
     "hero_id": 9,
-    "matches": 4105,
-    "wins": 2022,
+    "matches": 4116,
+    "wins": 2030,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0045,
+      "lane_avg_adv_pct": -0.0044,
       "best_build_winrate": 0.5012
     },
     "hero_name": "Mirana",
     "npc": "mirana",
-    "d2pt_rating": 2947
+    "d2pt_rating": 2961
   },
   {
     "hero_id": 11,
@@ -74,15 +74,15 @@
   },
   {
     "hero_id": 14,
-    "matches": 4228,
-    "wins": 2056,
+    "matches": 4252,
+    "wins": 2068,
     "detailed_stats": {
       "lane_avg_adv_pct": -0.0166,
       "best_build_winrate": 0.5241
     },
     "hero_name": "Pudge",
     "npc": "pudge",
-    "d2pt_rating": 2943
+    "d2pt_rating": 2938
   },
   {
     "hero_id": 15,
@@ -98,31 +98,31 @@
   },
   {
     "hero_id": 19,
-    "matches": 535,
+    "matches": 533,
     "wins": 245,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0559,
+      "lane_avg_adv_pct": -0.057,
       "best_build_winrate": 0.4775
     },
     "hero_name": "Tiny",
     "npc": "tiny",
-    "d2pt_rating": 2938
+    "d2pt_rating": 2941
   },
   {
     "hero_id": 20,
-    "matches": 429,
-    "wins": 226,
+    "matches": 430,
+    "wins": 225,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0212,
+      "lane_avg_adv_pct": -0.0218,
       "best_build_winrate": 0.5349
     },
     "hero_name": "Vengeful Spirit",
     "npc": "vengefulspirit",
-    "d2pt_rating": 3045
+    "d2pt_rating": 3041
   },
   {
     "hero_id": 21,
-    "matches": 2359,
+    "matches": 2366,
     "wins": 1148,
     "detailed_stats": {
       "lane_avg_adv_pct": 0.007,
@@ -130,55 +130,67 @@
     },
     "hero_name": "Windranger",
     "npc": "windrunner",
-    "d2pt_rating": 2937
+    "d2pt_rating": 2921
   },
   {
     "hero_id": 22,
-    "matches": 2297,
-    "wins": 1080,
+    "matches": 2306,
+    "wins": 1084,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0081,
+      "lane_avg_adv_pct": -0.0082,
       "best_build_winrate": 0.4779
     },
     "hero_name": "Zeus",
     "npc": "zuus",
-    "d2pt_rating": 2909
+    "d2pt_rating": 2917
+  },
+  {
+    "hero_id": 23,
+    "matches": 20,
+    "wins": 12,
+    "detailed_stats": {
+      "lane_avg_adv_pct": -0.0215,
+      "best_build_winrate": 0.4722
+    },
+    "hero_name": "Kunkka",
+    "npc": "kunkka",
+    "d2pt_rating": 2142
   },
   {
     "hero_id": 25,
-    "matches": 282,
+    "matches": 284,
     "wins": 124,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0223,
+      "lane_avg_adv_pct": 0.0218,
       "best_build_winrate": 0.5238
     },
     "hero_name": "Lina",
     "npc": "lina",
-    "d2pt_rating": 2949
+    "d2pt_rating": 2946
   },
   {
     "hero_id": 26,
-    "matches": 3036,
-    "wins": 1508,
+    "matches": 3028,
+    "wins": 1501,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0307,
+      "lane_avg_adv_pct": -0.0305,
       "best_build_winrate": 0.5015
     },
     "hero_name": "Lion",
     "npc": "lion",
-    "d2pt_rating": 3068
+    "d2pt_rating": 3058
   },
   {
     "hero_id": 27,
-    "matches": 1036,
-    "wins": 512,
+    "matches": 1032,
+    "wins": 505,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0415,
+      "lane_avg_adv_pct": -0.042,
       "best_build_winrate": 0.4981
     },
     "hero_name": "Shadow Shaman",
     "npc": "shadow_shaman",
-    "d2pt_rating": 2997
+    "d2pt_rating": 2981
   },
   {
     "hero_id": 29,
@@ -194,118 +206,118 @@
   },
   {
     "hero_id": 30,
-    "matches": 531,
+    "matches": 532,
     "wins": 278,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0008,
+      "lane_avg_adv_pct": 0.0012,
       "best_build_winrate": 0.5387
     },
     "hero_name": "Witch Doctor",
     "npc": "witch_doctor",
-    "d2pt_rating": 3034
+    "d2pt_rating": 3032
   },
   {
     "hero_id": 31,
-    "matches": 705,
+    "matches": 710,
     "wins": 331,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0268,
+      "lane_avg_adv_pct": -0.0269,
       "best_build_winrate": 0.505
     },
     "hero_name": "Lich",
     "npc": "lich",
-    "d2pt_rating": 2951
+    "d2pt_rating": 2943
   },
   {
     "hero_id": 32,
-    "matches": 82,
-    "wins": 23,
+    "matches": 83,
+    "wins": 24,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0315,
+      "lane_avg_adv_pct": -0.0295,
       "best_build_winrate": 0.3407
     },
     "hero_name": "Riki",
     "npc": "riki",
-    "d2pt_rating": 2959
+    "d2pt_rating": 2960
   },
   {
     "hero_id": 33,
-    "matches": 99,
-    "wins": 47,
+    "matches": 102,
+    "wins": 49,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.028,
+      "lane_avg_adv_pct": -0.0262,
       "best_build_winrate": 0.44
     },
     "hero_name": "Enigma",
     "npc": "enigma",
-    "d2pt_rating": 2994
+    "d2pt_rating": 2996
   },
   {
     "hero_id": 34,
-    "matches": 45,
+    "matches": 44,
     "wins": 18,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0448,
+      "lane_avg_adv_pct": -0.0453,
       "best_build_winrate": 0.45
     },
     "hero_name": "Tinker",
     "npc": "tinker",
-    "d2pt_rating": 1578
+    "d2pt_rating": 1595
   },
   {
     "hero_id": 35,
-    "matches": 116,
+    "matches": 115,
     "wins": 51,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0032,
+      "lane_avg_adv_pct": -0.0036,
       "best_build_winrate": 0.4591
     },
     "hero_name": "Sniper",
     "npc": "sniper",
-    "d2pt_rating": 2980
+    "d2pt_rating": 2982
   },
   {
     "hero_id": 37,
-    "matches": 126,
-    "wins": 53,
+    "matches": 127,
+    "wins": 54,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0209,
+      "lane_avg_adv_pct": -0.02,
       "best_build_winrate": 0.3898
     },
     "hero_name": "Warlock",
     "npc": "warlock",
-    "d2pt_rating": 2972
+    "d2pt_rating": 2974
   },
   {
     "hero_id": 39,
-    "matches": 162,
+    "matches": 161,
     "wins": 66,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0232,
+      "lane_avg_adv_pct": -0.0242,
       "best_build_winrate": 0.4806
     },
     "hero_name": "Queen of Pain",
     "npc": "queenofpain",
-    "d2pt_rating": 2962
+    "d2pt_rating": 2963
   },
   {
     "hero_id": 40,
-    "matches": 431,
-    "wins": 205,
+    "matches": 432,
+    "wins": 206,
     "detailed_stats": {
       "lane_avg_adv_pct": 0.0004,
       "best_build_winrate": 0.4485
     },
     "hero_name": "Venomancer",
     "npc": "venomancer",
-    "d2pt_rating": 2971
+    "d2pt_rating": 2973
   },
   {
     "hero_id": 41,
     "matches": 20,
     "wins": 14,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0649,
+      "lane_avg_adv_pct": -0.0453,
       "best_build_winrate": 0.5333
     },
     "hero_name": "Faceless Void",
@@ -314,70 +326,70 @@
   },
   {
     "hero_id": 43,
-    "matches": 51,
-    "wins": 26,
+    "matches": 49,
+    "wins": 24,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0137,
+      "lane_avg_adv_pct": 0.011,
       "best_build_winrate": 0.5455
     },
     "hero_name": "Death Prophet",
     "npc": "death_prophet",
-    "d2pt_rating": 3002
+    "d2pt_rating": 1515
   },
   {
     "hero_id": 45,
-    "matches": 494,
-    "wins": 249,
+    "matches": 497,
+    "wins": 251,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0064,
+      "lane_avg_adv_pct": -0.0068,
       "best_build_winrate": 0.5155
     },
     "hero_name": "Pugna",
     "npc": "pugna",
-    "d2pt_rating": 3007
+    "d2pt_rating": 3010
   },
   {
     "hero_id": 47,
-    "matches": 62,
+    "matches": 61,
     "wins": 27,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.006,
+      "lane_avg_adv_pct": 0.0092,
       "best_build_winrate": null
     },
     "hero_name": "Viper",
     "npc": "viper",
-    "d2pt_rating": 2990
+    "d2pt_rating": 2991
   },
   {
     "hero_id": 50,
-    "matches": 197,
-    "wins": 114,
+    "matches": 196,
+    "wins": 113,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.008,
+      "lane_avg_adv_pct": 0.0076,
       "best_build_winrate": 0.5917
     },
     "hero_name": "Dazzle",
     "npc": "dazzle",
-    "d2pt_rating": 3048
+    "d2pt_rating": 3046
   },
   {
     "hero_id": 51,
     "matches": 1563,
-    "wins": 810,
+    "wins": 805,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0153,
+      "lane_avg_adv_pct": -0.015,
       "best_build_winrate": 0.5205
     },
     "hero_name": "Clockwerk",
     "npc": "rattletrap",
-    "d2pt_rating": 3099
+    "d2pt_rating": 3089
   },
   {
     "hero_id": 52,
     "matches": 48,
-    "wins": 17,
+    "wins": 16,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0313,
+      "lane_avg_adv_pct": -0.0334,
       "best_build_winrate": 0.4516
     },
     "hero_name": "Leshrac",
@@ -386,39 +398,39 @@
   },
   {
     "hero_id": 53,
-    "matches": 442,
-    "wins": 189,
+    "matches": 440,
+    "wins": 188,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0191,
+      "lane_avg_adv_pct": -0.0189,
       "best_build_winrate": 0.4223
     },
     "hero_name": "Nature's Prophet",
     "npc": "furion",
-    "d2pt_rating": 2906
+    "d2pt_rating": 2907
   },
   {
     "hero_id": 57,
-    "matches": 76,
-    "wins": 36,
+    "matches": 77,
+    "wins": 37,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0585,
+      "lane_avg_adv_pct": -0.055,
       "best_build_winrate": 0.4769
     },
     "hero_name": "Omniknight",
     "npc": "omniknight",
-    "d2pt_rating": 2995
+    "d2pt_rating": 2996
   },
   {
     "hero_id": 58,
-    "matches": 448,
+    "matches": 442,
     "wins": 221,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0014,
+      "lane_avg_adv_pct": 0.0029,
       "best_build_winrate": 0.5117
     },
     "hero_name": "Enchantress",
     "npc": "enchantress",
-    "d2pt_rating": 2997
+    "d2pt_rating": 3006
   },
   {
     "hero_id": 59,
@@ -434,63 +446,63 @@
   },
   {
     "hero_id": 60,
-    "matches": 73,
+    "matches": 72,
     "wins": 34,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0166,
+      "lane_avg_adv_pct": -0.0152,
       "best_build_winrate": 0.5234
     },
     "hero_name": "Night Stalker",
     "npc": "night_stalker",
-    "d2pt_rating": 2993
+    "d2pt_rating": 2994
   },
   {
     "hero_id": 62,
-    "matches": 3985,
-    "wins": 2392,
+    "matches": 4018,
+    "wins": 2413,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0134,
+      "lane_avg_adv_pct": 0.0137,
       "best_build_winrate": 0.682
     },
     "hero_name": "Bounty Hunter",
     "npc": "bounty_hunter",
-    "d2pt_rating": 3617
+    "d2pt_rating": 3602
   },
   {
     "hero_id": 63,
-    "matches": 533,
+    "matches": 532,
     "wins": 222,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0175,
+      "lane_avg_adv_pct": -0.0172,
       "best_build_winrate": 0.4767
     },
     "hero_name": "Weaver",
     "npc": "weaver",
-    "d2pt_rating": 2864
+    "d2pt_rating": 2866
   },
   {
     "hero_id": 64,
-    "matches": 304,
-    "wins": 135,
+    "matches": 308,
+    "wins": 138,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0102,
+      "lane_avg_adv_pct": -0.0088,
       "best_build_winrate": 0.4229
     },
     "hero_name": "Jakiro",
     "npc": "jakiro",
-    "d2pt_rating": 2949
+    "d2pt_rating": 2951
   },
   {
     "hero_id": 65,
-    "matches": 149,
+    "matches": 150,
     "wins": 71,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0454,
+      "lane_avg_adv_pct": -0.0451,
       "best_build_winrate": 0.4904
     },
     "hero_name": "Batrider",
     "npc": "batrider",
-    "d2pt_rating": 2993
+    "d2pt_rating": 2991
   },
   {
     "hero_id": 66,
@@ -506,58 +518,58 @@
   },
   {
     "hero_id": 68,
-    "matches": 316,
-    "wins": 162,
+    "matches": 310,
+    "wins": 157,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0356,
+      "lane_avg_adv_pct": -0.0359,
       "best_build_winrate": 0.5155
     },
     "hero_name": "Ancient Apparition",
     "npc": "ancient_apparition",
-    "d2pt_rating": 3009
+    "d2pt_rating": 3004
   },
   {
     "hero_id": 69,
-    "matches": 72,
+    "matches": 73,
     "wins": 31,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0221,
+      "lane_avg_adv_pct": -0.025,
       "best_build_winrate": 0.4513
     },
     "hero_name": "Doom",
     "npc": "doom_bringer",
-    "d2pt_rating": 2988
+    "d2pt_rating": 2987
   },
   {
     "hero_id": 71,
-    "matches": 4894,
-    "wins": 2632,
+    "matches": 4919,
+    "wins": 2655,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0121,
+      "lane_avg_adv_pct": -0.0119,
       "best_build_winrate": 0.5358
     },
     "hero_name": "Spirit Breaker",
     "npc": "spirit_breaker",
-    "d2pt_rating": 3269
+    "d2pt_rating": 3289
   },
   {
     "hero_id": 72,
-    "matches": 311,
+    "matches": 314,
     "wins": 138,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.026,
+      "lane_avg_adv_pct": -0.0272,
       "best_build_winrate": 0.4476
     },
     "hero_name": "Gyrocopter",
     "npc": "gyrocopter",
-    "d2pt_rating": 2949
+    "d2pt_rating": 2944
   },
   {
     "hero_id": 73,
     "matches": 87,
     "wins": 38,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0509,
+      "lane_avg_adv_pct": -0.0496,
       "best_build_winrate": 0.431
     },
     "hero_name": "Alchemist",
@@ -566,34 +578,34 @@
   },
   {
     "hero_id": 74,
-    "matches": 799,
-    "wins": 374,
+    "matches": 803,
+    "wins": 375,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0349,
+      "lane_avg_adv_pct": -0.0368,
       "best_build_winrate": 0.5178
     },
     "hero_name": "Invoker",
     "npc": "invoker",
-    "d2pt_rating": 2937
+    "d2pt_rating": 2931
   },
   {
     "hero_id": 75,
-    "matches": 602,
-    "wins": 298,
+    "matches": 600,
+    "wins": 299,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0057,
+      "lane_avg_adv_pct": 0.0069,
       "best_build_winrate": 0.4899
     },
     "hero_name": "Silencer",
     "npc": "silencer",
-    "d2pt_rating": 3004
+    "d2pt_rating": 3011
   },
   {
     "hero_id": 76,
-    "matches": 62,
-    "wins": 27,
+    "matches": 60,
+    "wins": 26,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0376,
+      "lane_avg_adv_pct": -0.038,
       "best_build_winrate": 0.4688
     },
     "hero_name": "Outworld Destroyer",
@@ -602,171 +614,171 @@
   },
   {
     "hero_id": 78,
-    "matches": 24,
+    "matches": 25,
     "wins": 7,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0779,
+      "lane_avg_adv_pct": -0.0777,
       "best_build_winrate": 0.34
     },
     "hero_name": "Brewmaster",
     "npc": "brewmaster",
-    "d2pt_rating": 2027
+    "d2pt_rating": 2000
   },
   {
     "hero_id": 79,
-    "matches": 600,
-    "wins": 295,
+    "matches": 602,
+    "wins": 296,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0362,
+      "lane_avg_adv_pct": -0.0352,
       "best_build_winrate": 0.4688
     },
     "hero_name": "Shadow Demon",
     "npc": "shadow_demon",
-    "d2pt_rating": 2989
+    "d2pt_rating": 2992
   },
   {
     "hero_id": 81,
-    "matches": 30,
-    "wins": 14,
+    "matches": 32,
+    "wins": 15,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0152,
+      "lane_avg_adv_pct": 0.0139,
       "best_build_winrate": 0.4091
     },
     "hero_name": "Chaos Knight",
     "npc": "chaos_knight",
-    "d2pt_rating": 1875
+    "d2pt_rating": 1829
   },
   {
     "hero_id": 83,
-    "matches": 854,
-    "wins": 468,
+    "matches": 856,
+    "wins": 469,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0045,
+      "lane_avg_adv_pct": -0.0039,
       "best_build_winrate": 0.5405
     },
     "hero_name": "Treant Protector",
     "npc": "treant",
-    "d2pt_rating": 3130
+    "d2pt_rating": 3129
   },
   {
     "hero_id": 84,
-    "matches": 377,
-    "wins": 167,
+    "matches": 380,
+    "wins": 170,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0197,
+      "lane_avg_adv_pct": -0.0202,
       "best_build_winrate": 0.467
     },
     "hero_name": "Ogre Magi",
     "npc": "ogre_magi",
-    "d2pt_rating": 2940
+    "d2pt_rating": 2946
   },
   {
     "hero_id": 85,
-    "matches": 955,
+    "matches": 959,
     "wins": 498,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0266,
+      "lane_avg_adv_pct": 0.0264,
       "best_build_winrate": 0.5143
     },
     "hero_name": "Undying",
     "npc": "undying",
-    "d2pt_rating": 3061
+    "d2pt_rating": 3056
   },
   {
     "hero_id": 86,
-    "matches": 6812,
-    "wins": 3410,
+    "matches": 6845,
+    "wins": 3419,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0205,
+      "lane_avg_adv_pct": -0.0208,
       "best_build_winrate": 0.5
     },
     "hero_name": "Rubick",
     "npc": "rubick",
-    "d2pt_rating": 3013
+    "d2pt_rating": 2999
   },
   {
     "hero_id": 87,
     "matches": 497,
-    "wins": 245,
+    "wins": 240,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.028,
+      "lane_avg_adv_pct": -0.0298,
       "best_build_winrate": 0.5012
     },
     "hero_name": "Disruptor",
     "npc": "disruptor",
-    "d2pt_rating": 2997
+    "d2pt_rating": 2981
   },
   {
     "hero_id": 88,
-    "matches": 2036,
-    "wins": 1083,
+    "matches": 2037,
+    "wins": 1086,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0392,
+      "lane_avg_adv_pct": -0.0396,
       "best_build_winrate": 0.5907
     },
     "hero_name": "Nyx Assassin",
     "npc": "nyx_assassin",
-    "d2pt_rating": 3143
+    "d2pt_rating": 3142
   },
   {
     "hero_id": 90,
-    "matches": 2078,
-    "wins": 1067,
+    "matches": 2071,
+    "wins": 1057,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0186,
+      "lane_avg_adv_pct": -0.019,
       "best_build_winrate": 0.5109
     },
     "hero_name": "Keeper of the Light",
     "npc": "keeper_of_the_light",
-    "d2pt_rating": 3105
+    "d2pt_rating": 3100
   },
   {
     "hero_id": 91,
-    "matches": 518,
-    "wins": 251,
+    "matches": 512,
+    "wins": 250,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.0062,
+      "lane_avg_adv_pct": 0.0058,
       "best_build_winrate": 0.5173
     },
     "hero_name": "Io",
     "npc": "wisp",
-    "d2pt_rating": 2984
+    "d2pt_rating": 2991
   },
   {
     "hero_id": 92,
-    "matches": 146,
-    "wins": 74,
+    "matches": 147,
+    "wins": 75,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0025,
+      "lane_avg_adv_pct": -0.0026,
       "best_build_winrate": 0.5427
     },
     "hero_name": "Visage",
     "npc": "visage",
-    "d2pt_rating": 3005
+    "d2pt_rating": 3006
   },
   {
     "hero_id": 93,
     "matches": 120,
-    "wins": 60,
+    "wins": 61,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0119,
+      "lane_avg_adv_pct": -0.0129,
       "best_build_winrate": 0.5
     },
     "hero_name": "Slark",
     "npc": "slark",
-    "d2pt_rating": 2999
+    "d2pt_rating": 3002
   },
   {
     "hero_id": 97,
-    "matches": 481,
+    "matches": 478,
     "wins": 237,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0341,
+      "lane_avg_adv_pct": -0.0347,
       "best_build_winrate": 0.4959
     },
     "hero_name": "Magnus",
     "npc": "magnataur",
-    "d2pt_rating": 3000
+    "d2pt_rating": 3006
   },
   {
     "hero_id": 98,
@@ -782,70 +794,70 @@
   },
   {
     "hero_id": 100,
-    "matches": 1744,
-    "wins": 859,
+    "matches": 1758,
+    "wins": 863,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0257,
+      "lane_avg_adv_pct": -0.0262,
       "best_build_winrate": 0.4904
     },
     "hero_name": "Tusk",
     "npc": "tusk",
-    "d2pt_rating": 2959
+    "d2pt_rating": 2956
   },
   {
     "hero_id": 101,
-    "matches": 2555,
-    "wins": 1205,
+    "matches": 2545,
+    "wins": 1199,
     "detailed_stats": {
       "lane_avg_adv_pct": 0.0087,
       "best_build_winrate": 0.5418
     },
     "hero_name": "Skywrath Mage",
     "npc": "skywrath_mage",
-    "d2pt_rating": 2874
+    "d2pt_rating": 2870
   },
   {
     "hero_id": 102,
-    "matches": 116,
-    "wins": 48,
+    "matches": 117,
+    "wins": 49,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0184,
+      "lane_avg_adv_pct": -0.0187,
       "best_build_winrate": 0.4545
     },
     "hero_name": "Abaddon",
     "npc": "abaddon",
-    "d2pt_rating": 2973
+    "d2pt_rating": 2975
   },
   {
     "hero_id": 103,
-    "matches": 118,
-    "wins": 68,
+    "matches": 120,
+    "wins": 71,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0291,
+      "lane_avg_adv_pct": -0.0268,
       "best_build_winrate": 0.5291
     },
     "hero_name": "Elder Titan",
     "npc": "elder_titan",
-    "d2pt_rating": 3023
+    "d2pt_rating": 3029
   },
   {
     "hero_id": 105,
-    "matches": 2522,
-    "wins": 1261,
+    "matches": 2531,
+    "wins": 1267,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0119,
+      "lane_avg_adv_pct": -0.0113,
       "best_build_winrate": 0.5683
     },
     "hero_name": "Techies",
     "npc": "techies",
-    "d2pt_rating": 3016
+    "d2pt_rating": 3024
   },
   {
     "hero_id": 106,
     "matches": 31,
-    "wins": 12,
+    "wins": 13,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0283,
+      "lane_avg_adv_pct": -0.0229,
       "best_build_winrate": 0.449
     },
     "hero_name": "Ember Spirit",
@@ -854,51 +866,51 @@
   },
   {
     "hero_id": 107,
-    "matches": 2046,
-    "wins": 1039,
+    "matches": 2047,
+    "wins": 1038,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0403,
+      "lane_avg_adv_pct": -0.0404,
       "best_build_winrate": 0.5665
     },
     "hero_name": "Earth Spirit",
     "npc": "earth_spirit",
-    "d2pt_rating": 3026
+    "d2pt_rating": 3020
   },
   {
     "hero_id": 110,
-    "matches": 1039,
-    "wins": 532,
+    "matches": 1040,
+    "wins": 530,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0008,
+      "lane_avg_adv_pct": -0.002,
       "best_build_winrate": 0.4877
     },
     "hero_name": "Phoenix",
     "npc": "phoenix",
-    "d2pt_rating": 3051
+    "d2pt_rating": 3045
   },
   {
     "hero_id": 111,
-    "matches": 264,
-    "wins": 128,
+    "matches": 265,
+    "wins": 130,
     "detailed_stats": {
       "lane_avg_adv_pct": -0.0397,
       "best_build_winrate": 0.6098
     },
     "hero_name": "Oracle",
     "npc": "oracle",
-    "d2pt_rating": 2997
+    "d2pt_rating": 3001
   },
   {
     "hero_id": 112,
-    "matches": 994,
+    "matches": 999,
     "wins": 527,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0051,
+      "lane_avg_adv_pct": -0.0048,
       "best_build_winrate": 0.5316
     },
     "hero_name": "Winter Wyvern",
     "npc": "winter_wyvern",
-    "d2pt_rating": 3087
+    "d2pt_rating": 3080
   },
   {
     "hero_id": 114,
@@ -914,19 +926,19 @@
   },
   {
     "hero_id": 119,
-    "matches": 2262,
-    "wins": 1120,
+    "matches": 2285,
+    "wins": 1137,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0031,
+      "lane_avg_adv_pct": -0.0032,
       "best_build_winrate": 0.535
     },
     "hero_name": "Dark Willow",
     "npc": "dark_willow",
-    "d2pt_rating": 3055
+    "d2pt_rating": 3079
   },
   {
     "hero_id": 121,
-    "matches": 1546,
+    "matches": 1544,
     "wins": 772,
     "detailed_stats": {
       "lane_avg_adv_pct": -0.0245,
@@ -934,26 +946,26 @@
     },
     "hero_name": "Grimstroke",
     "npc": "grimstroke",
-    "d2pt_rating": 2996
+    "d2pt_rating": 2998
   },
   {
     "hero_id": 123,
-    "matches": 4797,
-    "wins": 2343,
+    "matches": 4811,
+    "wins": 2354,
     "detailed_stats": {
-      "lane_avg_adv_pct": 0.003,
+      "lane_avg_adv_pct": 0.0029,
       "best_build_winrate": 0.494
     },
     "hero_name": "Hoodwink",
     "npc": "hoodwink",
-    "d2pt_rating": 2975
+    "d2pt_rating": 2986
   },
   {
     "hero_id": 126,
     "matches": 40,
     "wins": 19,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0636,
+      "lane_avg_adv_pct": -0.0608,
       "best_build_winrate": 0.3953
     },
     "hero_name": "Void Spirit",
@@ -962,19 +974,19 @@
   },
   {
     "hero_id": 128,
-    "matches": 2755,
-    "wins": 1310,
+    "matches": 2760,
+    "wins": 1315,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0243,
+      "lane_avg_adv_pct": -0.0242,
       "best_build_winrate": 0.4758
     },
     "hero_name": "Snapfire",
     "npc": "snapfire",
-    "d2pt_rating": 2917
+    "d2pt_rating": 2915
   },
   {
     "hero_id": 129,
-    "matches": 45,
+    "matches": 46,
     "wins": 15,
     "detailed_stats": {
       "lane_avg_adv_pct": -0.0667,
@@ -982,26 +994,26 @@
     },
     "hero_name": "Mars",
     "npc": "mars",
-    "d2pt_rating": 1578
+    "d2pt_rating": 1562
   },
   {
     "hero_id": 131,
-    "matches": 2264,
+    "matches": 2268,
     "wins": 1114,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0261,
+      "lane_avg_adv_pct": -0.0257,
       "best_build_winrate": 0.4922
     },
     "hero_name": "Ringmaster",
     "npc": "ringmaster",
-    "d2pt_rating": 2983
+    "d2pt_rating": 2977
   },
   {
     "hero_id": 135,
     "matches": 112,
     "wins": 52,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0164,
+      "lane_avg_adv_pct": -0.0184,
       "best_build_winrate": 0.4077
     },
     "hero_name": "Dawnbreaker",
@@ -1010,38 +1022,38 @@
   },
   {
     "hero_id": 136,
-    "matches": 392,
+    "matches": 393,
     "wins": 187,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0381,
+      "lane_avg_adv_pct": -0.0383,
       "best_build_winrate": 0.3815
     },
     "hero_name": "Marci",
     "npc": "marci",
-    "d2pt_rating": 2970
+    "d2pt_rating": 2969
   },
   {
     "hero_id": 138,
-    "matches": 202,
-    "wins": 90,
+    "matches": 199,
+    "wins": 88,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.007,
+      "lane_avg_adv_pct": -0.0066,
       "best_build_winrate": 0.4726
     },
     "hero_name": "Muerta",
     "npc": "muerta",
-    "d2pt_rating": 2972
+    "d2pt_rating": 2970
   },
   {
     "hero_id": 155,
-    "matches": 343,
-    "wins": 182,
+    "matches": 342,
+    "wins": 181,
     "detailed_stats": {
-      "lane_avg_adv_pct": -0.0399,
+      "lane_avg_adv_pct": -0.0407,
       "best_build_winrate": 0.6081
     },
     "hero_name": "Largo",
     "npc": "largo",
-    "d2pt_rating": 3033
+    "d2pt_rating": 3032
   }
 ]
