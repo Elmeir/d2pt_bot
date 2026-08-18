@@ -22,7 +22,7 @@ import urllib.request
 OPENDOTA_HEROES = "https://api.opendota.com/api/heroes"
 DOTA2_HERODATA = "https://www.dota2.com/datafeed/herodata?language=schinese&hero_id={hero_id}"
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
-OUTPUT_FILE = os.path.join(OUTPUT_DIR, "talents_cn.json")
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "data", "talents_cn.json")
 
 # 请求间隔（秒），避免对 dota2.com 请求过于频繁
 REQUEST_DELAY = 0.5
@@ -180,6 +180,7 @@ def main() -> None:
             time.sleep(REQUEST_DELAY)
 
     # 3. 保存到 JSON
+    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(all_talents, f, ensure_ascii=False, indent=2)
     print(f"\n数据已保存到: {OUTPUT_FILE}（共 {len(all_talents)} 个天赋）")

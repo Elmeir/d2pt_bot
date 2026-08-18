@@ -6,8 +6,9 @@ import urllib.parse
 
 BASE_URL = "https://dota2protracker.com/api/heroes/stats"
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_FILE = os.path.join(OUTPUT_DIR, "data", "d2pt_pos.json")
 
-def fetch_and_save(pos):
+def fetch_position(pos):
     params = {
         "mmr": "7000",
         "position": f"pos {pos}",
@@ -40,11 +41,8 @@ def fetch_and_save(pos):
         for hero in data[1:]:
             hero.pop("updated_at", None)
 
-    output_file = os.path.join(OUTPUT_DIR, f"d2pt_pos{pos}.json")
-    with open(output_file, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
-
-    print(f"Saved {output_file}")
+    print(f"Fetched pos {pos}: {len(data)} heroes")
+    return data
 
 # 需要从顶层去除的字段
 DROP_TOP_KEYS = {
@@ -64,12 +62,39 @@ def transform_hero(hero):
     }
     return result
 
+def merge_position(existing, new):
+    """存量更新：以 hero_id 为键合并，保留存量数据，更新或追加新抓取的数据。"""
+    merged = {hero["hero_id"]: hero for hero in existing}
+    for hero in new:
+        merged[hero["hero_id"]] = hero
+    return list(merged.values())
+
+def save_positions(positions):
+    """将各位置数据合并写入 d2pt_pos.json，保存时对存量数据做更新。"""
+    existing = {}
+    if os.path.exists(OUTPUT_FILE):
+        with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+            existing = json.load(f)
+
+    data = {}
+    for pos in range(1, 6):
+        key = f"pos{pos}"
+        data[key] = merge_position(existing.get(key, []), positions.get(key, []))
+
+    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2)
+
+    print(f"Saved {OUTPUT_FILE}")
+
 def main():
+    positions = {}
     for pos in range(1, 6):
         try:
-            fetch_and_save(pos)
+            positions[f"pos{pos}"] = fetch_position(pos)
         except Exception as e:
             print(f"Error fetching pos {pos}: {e}")
+    save_positions(positions)
 
 if __name__ == "__main__":
     main()

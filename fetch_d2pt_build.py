@@ -39,7 +39,7 @@ from fetch_d2pt_build_api import (
     build_abilities_new,
 )
 
-DATABASE_FILE = "d2pt_core_build.json"
+DATABASE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "d2pt_core_build.json")
 # 最大并发请求数（CI 环境降低并发以减少 Cloudflare 拦截风险）
 CONCURRENCY = 3
 # 单个请求超时（秒）
@@ -105,6 +105,7 @@ def load_database() -> dict:
 
 def save_database(db: dict) -> None:
     """保存数据库到文件（原子写入：先写临时文件再重命名）。"""
+    os.makedirs(os.path.dirname(DATABASE_FILE), exist_ok=True)
     tmp_file = DATABASE_FILE + ".tmp"
     with open(tmp_file, "w", encoding="utf-8") as f:
         json.dump(db, f, ensure_ascii=False, separators=(",", ":"))

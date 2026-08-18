@@ -36,4 +36,4 @@ jobs:
       - name: Commit and push
         uses: ./.github/actions/commit-push
         with:
-          files: d2pt_core_build.json
+          files: data/d2pt_core_build.json

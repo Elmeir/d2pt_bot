@@ -3,7 +3,7 @@ description: 暂存指定文件并在有变更时提交推送（无变更则跳�
 
 inputs:
   files:
-    description: 需要暂存的文件/通配符（如 "d2pt_pos*.json"）
+    description: 需要暂存的文件/通配符（如 "data/d2pt_pos*.json"）
     required: true
 
 runs:

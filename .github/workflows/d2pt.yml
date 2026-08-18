@@ -1,6 +1,6 @@
 name: d2pt win rate
 
-# 每小时更新一次各位置的胜率数据 d2pt_pos*.json
+# 每小时更新一次各位置的胜率数据 d2pt_pos.json
 # - 定时：每小时第 23 分钟运行
 # - 手动：支持在 GitHub Actions 页面手动触发
 on:
@@ -27,4 +27,4 @@ jobs:
       - name: Commit and push
         uses: ./.github/actions/commit-push
         with:
-          files: d2pt_pos*.json
+          files: data/d2pt_pos*.json
