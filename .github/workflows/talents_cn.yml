@@ -1,0 +1,27 @@
+name: update talents cn
+
+# 手动更新英雄天赋中文名称 data/talents_cn.json
+# - 手动：支持在 GitHub Actions 页面手动触发
+on:
+  workflow_dispatch:
+
+jobs:
+  update-talents:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run fetch script
+        run: python fetch_talents_cn.py
+
+      - name: Commit and push
+        uses: ./.github/actions/commit-push
+        with:
+          files: data/talents_cn.json
