@@ -1,11 +1,11 @@
 name: d2pt win rate
 
-# 每小时更新一次各位置的胜率数据 d2pt_pos.json
-# - 定时：每小时第 23 分钟运行
+# 每 2 小时更新一次各位置的胜率数据 d2pt_pos.json
+# - 定时：每 2 小时第 23 分钟运行
 # - 手动：支持在 GitHub Actions 页面手动触发
 on:
   schedule:
-    - cron: '23 * * * *'
+    - cron: '23 */2 * * *'
   workflow_dispatch:
 
 jobs:
