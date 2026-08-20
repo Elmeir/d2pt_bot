@@ -1,8 +1,11 @@
 name: update talents cn
 
-# 手动更新英雄天赋中文名称 data/talents_cn.json
+# 每周更新英雄天赋中文名称 data/talents_cn.json（存量更新）
+# - 定时：每周日 UTC 0:20 运行（即每周一次）
 # - 手动：支持在 GitHub Actions 页面手动触发
 on:
+  schedule:
+    - cron: '20 0 * * 0'
   workflow_dispatch:
 
 jobs:

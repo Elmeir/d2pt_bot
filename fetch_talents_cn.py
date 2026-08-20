@@ -11,6 +11,9 @@ name_loc 占位符替换规则：
       中存在 name 等于当前天赋 name 的条目，取该 bonus 的 value
 
 输出：talents_cn.json，扁平的 {name: name_loc} 映射（不区分英雄）。
+
+采用存量更新：在已有 talents_cn.json 基础上合并抓取结果，
+避免个别英雄抓取失败时丢失其已有的天赋翻译。
 """
 
 import json
@@ -153,13 +156,23 @@ def extract_talents(hero: dict) -> dict[str, str]:
 
 
 def main() -> None:
+    # 0. 加载已有数据作为存量，抓取结果在此基础上更新
+    if os.path.exists(OUTPUT_FILE):
+        try:
+            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+                all_talents: dict[str, str] = json.load(f)
+            print(f"已加载存量数据 {len(all_talents)} 个天赋")
+        except (json.JSONDecodeError, OSError):
+            all_talents = {}
+    else:
+        all_talents = {}
+
     # 1. 获取英雄 ID 列表
     print("从 OpenDota 获取英雄 ID 列表 ...")
     hero_ids = get_hero_ids()
     print(f"  共 {len(hero_ids)} 个英雄")
 
     # 2. 逐个抓取天赋数据，合并为扁平的 {name: name_loc} 映射
-    all_talents: dict[str, str] = {}
     for i, hero_id in enumerate(hero_ids, 1):
         url = DOTA2_HERODATA.format(hero_id=hero_id)
         try:
