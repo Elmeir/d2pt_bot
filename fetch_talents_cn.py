@@ -2,8 +2,11 @@
 抓取英雄天赋的中文名称。
 
 数据源：
-    - 英雄 ID 列表：OpenDota /api/heroes（无 Cloudflare）
+    - 英雄列表：OpenDota /api/heroes（无 Cloudflare）
     - 天赋详情：https://www.dota2.com/datafeed/herodata?language=schinese&hero_id={hero_id}
+    - 兜底数值：d2vpkr 游戏文件镜像。datafeed 对个别天赋缺失 bonus 关联
+      （如基恩载具 -0.5、捕捞 +125），此时从英雄 KV 文件
+      dota/scripts/npc/heroes/npc_dota_hero_{npc}.txt 的扁平子块提取增量
 
 name_loc 占位符替换规则：
     - {s:value} → 取天赋自身 special_values 中 name="value" 的 values_float[0]
@@ -24,6 +27,12 @@ import urllib.request
 
 OPENDOTA_HEROES = "https://api.opendota.com/api/heroes"
 DOTA2_HERODATA = "https://www.dota2.com/datafeed/herodata?language=schinese&hero_id={hero_id}"
+# d2vpkr 兜底数据源（游戏 KV 文件镜像）：jsDelivr CDN 优先，raw 备用
+# {npc} 为完整 NPC 名（OpenDota name 字段，如 npc_dota_hero_tinker）
+D2VPKR_HERO_KV = ("https://cdn.jsdelivr.net/gh/dotabuff/d2vpkr@master"
+                  "/dota/scripts/npc/heroes/{npc}.txt")
+D2VPKR_HERO_KV_BACKUP = ("https://raw.githubusercontent.com/dotabuff/d2vpkr/master"
+                         "/dota/scripts/npc/heroes/{npc}.txt")
 OUTPUT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "data", "talents_cn.json")
 
@@ -37,6 +46,10 @@ HEADERS = {
 
 # 匹配 name_loc 中的占位符，如 {s:value}、{s:bonus_mana_void_damage_per_mana}
 PLACEHOLDER_RE = re.compile(r"\{s:([^}]+)\}")
+
+# 匹配 KV 文件中的扁平子块（不含嵌套大括号），块名为特殊值名：
+#   "AbilityChannelTime" { "value" "3.0" "special_bonus_unique_tinker_5" "-0.5" }
+KV_FLAT_BLOCK_RE = re.compile(r'"([^"\n]+)"\s*\{([^{}]*)\}')
 
 
 def simplify_talent_name(name: str) -> str:
@@ -60,10 +73,11 @@ def _fetch_json(url: str, timeout: int = 30) -> dict | list:
         return json.loads(response.read())
 
 
-def get_hero_ids() -> list[int]:
-    """从 OpenDota API 获取所有英雄 ID。"""
+def get_heroes() -> list[dict]:
+    """从 OpenDota API 获取英雄列表（id 与 npc 名，npc 用于 d2vpkr 文件名）。"""
     data = _fetch_json(OPENDOTA_HEROES)
-    return [hero["id"] for hero in data if "id" in hero]
+    return [{"id": hero["id"], "npc": hero.get("name", "")}
+            for hero in data if "id" in hero]
 
 
 def _format_value(val) -> str:
@@ -141,6 +155,76 @@ def resolve_name_loc(name_loc: str, talent_name: str,
     return PLACEHOLDER_RE.sub(_replace, name_loc)
 
 
+def _load_hero_kv(npc: str) -> str | None:
+    """下载英雄 KV 定义文件（d2vpkr 镜像），失败返回 None。"""
+    for url in (D2VPKR_HERO_KV.format(npc=npc), D2VPKR_HERO_KV_BACKUP.format(npc=npc)):
+        try:
+            req = urllib.request.Request(url, headers=HEADERS)
+            with urllib.request.urlopen(req, timeout=30) as response:
+                return response.read().decode("utf-8", errors="replace")
+        except Exception:
+            continue
+    return None
+
+
+def _resolve_via_kv(kv_text: str, talent_full: str, name_loc: str) -> str:
+    """用 KV 文件中该天赋的 bonus 增量替换 name_loc 里未解析的占位符。
+
+    KV 中 bonus 以特殊值子块形式挂在技能 AbilityValues 下：
+        "AbilityChannelTime"
+        {
+            "value"                         "3.0"
+            "special_bonus_unique_tinker_5" "-0.5"
+        }
+    name_loc 中通常已带正负号（如 "-{s:bonus_X}秒"），因此取增量绝对值替换。
+    """
+    def _sub(match):
+        key = match.group(1)
+        if not key.startswith("bonus_"):
+            return match.group(0)
+        sv_name = key[len("bonus_"):].lower()
+
+        # 收集 KV 中所有引用该天赋增量的扁平子块
+        candidates: list[tuple[str, str]] = []
+        for block in KV_FLAT_BLOCK_RE.finditer(kv_text):
+            pair = re.search(rf'"{talent_full}"\s*"([^"]+)"', block.group(2))
+            if pair:
+                candidates.append((block.group(1), pair.group(1)))
+
+        # 优先取块名与占位符特殊值名一致的增量
+        chosen = None
+        for block_name, value in candidates:
+            if block_name.lower() == sv_name:
+                chosen = value
+                break
+        # 无同名块时，若所有增量一致则直接采用
+        if chosen is None and len({v for _, v in candidates}) == 1:
+            chosen = candidates[0][1]
+        if chosen is None:
+            return match.group(0)
+
+        try:
+            val = abs(float(chosen.strip()))
+        except ValueError:
+            return match.group(0)
+        return _format_value(val)
+
+    return PLACEHOLDER_RE.sub(_sub, name_loc)
+
+
+def apply_kv_fallback(talents: dict[str, str], kv_text: str) -> None:
+    """用 d2vpkr KV 文件兜底解析 talents 中剩余的占位符（原地修改）。"""
+    for tkey in [k for k, v in talents.items() if "{s:" in v]:
+        # 由简化名反推 KV 中的完整天赋名（unique_ 前缀优先）
+        full = next(
+            (c for c in (f"special_bonus_unique_{tkey}", f"special_bonus_{tkey}")
+             if f'"{c}"' in kv_text),
+            None,
+        )
+        if full:
+            talents[tkey] = _resolve_via_kv(kv_text, full, talents[tkey])
+
+
 def extract_talents(hero: dict) -> dict[str, str]:
     """从英雄数据中提取天赋映射 {简化 name: 替换后的 name_loc}。"""
     abilities = hero.get("abilities", [])
@@ -167,29 +251,35 @@ def main() -> None:
     else:
         all_talents = {}
 
-    # 1. 获取英雄 ID 列表
-    print("从 OpenDota 获取英雄 ID 列表 ...")
-    hero_ids = get_hero_ids()
-    print(f"  共 {len(hero_ids)} 个英雄")
+    # 1. 获取英雄列表（npc 名用于 d2vpkr 兜底文件名）
+    print("从 OpenDota 获取英雄列表 ...")
+    heroes = get_heroes()
+    print(f"  共 {len(heroes)} 个英雄")
 
     # 2. 逐个抓取天赋数据，合并为扁平的 {name: name_loc} 映射
-    for i, hero_id in enumerate(hero_ids, 1):
+    for i, entry in enumerate(heroes, 1):
+        hero_id, hero_npc = entry["id"], entry["npc"]
         url = DOTA2_HERODATA.format(hero_id=hero_id)
         try:
             data = _fetch_json(url)
-            heroes = data["result"]["data"]["heroes"]
-            if not heroes:
-                print(f"  [{i}/{len(hero_ids)}] hero_id={hero_id} 无数据")
+            heroes_data = data["result"]["data"]["heroes"]
+            if not heroes_data:
+                print(f"  [{i}/{len(heroes)}] hero_id={hero_id} 无数据")
                 continue
-            hero = heroes[0]
+            hero = heroes_data[0]
             talents = extract_talents(hero)
+            # datafeed 缺失 bonus 关联时，从 d2vpkr KV 兜底解析剩余占位符
+            if any("{s:" in v for v in talents.values()):
+                kv_text = _load_hero_kv(hero_npc)
+                if kv_text:
+                    apply_kv_fallback(talents, kv_text)
             all_talents.update(talents)
-            print(f"  [{i}/{len(hero_ids)}] hero_id={hero_id} "
+            print(f"  [{i}/{len(heroes)}] hero_id={hero_id} "
                   f"({hero.get('name_loc', '?')}) - {len(talents)} 个天赋")
         except Exception as e:
-            print(f"  [{i}/{len(hero_ids)}] hero_id={hero_id} 获取失败: {e}")
+            print(f"  [{i}/{len(heroes)}] hero_id={hero_id} 获取失败: {e}")
 
-        if i < len(hero_ids):
+        if i < len(heroes):
             time.sleep(REQUEST_DELAY)
 
     # 3. 保存到 JSON
