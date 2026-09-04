@@ -2,11 +2,18 @@ name: update talents cn
 
 # 每周更新英雄天赋中文名称 data/talents_cn.json（存量更新）
 # - 定时：每周日 UTC 0:20 运行（即每周一次）
-# - 手动：支持在 GitHub Actions 页面手动触发
+# - 手动：支持在 GitHub Actions 页面手动触发，可勾选 force 跳过更新检测
+# - 检测：依赖文件/目录的最新 commit 与 data/talents_cn.sha 记录一致时跳过重建
 on:
   schedule:
     - cron: '20 0 * * 0'
   workflow_dispatch:
+    inputs:
+      force:
+        description: 跳过更新检测，强制重建
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   update-talents:
@@ -22,9 +29,9 @@ jobs:
           python-version: '3.11'
 
       - name: Run fetch script
-        run: python fetch_talents_cn.py
+        run: python fetch_talents_cn.py${{ inputs.force && ' --force' || '' }}
 
       - name: Commit and push
         uses: ./.github/actions/commit-push
         with:
-          files: data/talents_cn.json
+          files: data/talents_cn.json data/talents_cn.sha
