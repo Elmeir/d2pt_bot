@@ -27,4 +27,5 @@ jobs:
       - name: Commit and push
         uses: ./.github/actions/commit-push
         with:
-          files: data/d2pt_pos*.json
+          # d2pt_params.json 保存最近一次成功的 API 参数，供参数自愈复用
+          files: data/d2pt_pos*.json data/d2pt_params.json
