@@ -10,17 +10,17 @@ runs:
   using: composite
   steps:
     - name: Commit and push changes
-        shell: bash
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git pull --rebase --autostash || { echo "::error::git pull --rebase 失败（推送竞争），中止提交"; exit 1; }
-          git add ${{ inputs.files }}
-          files=$(git diff --staged --name-only)
-          # autostash pop 冲突会把未解决的冲突标记写进文件，禁止将其提交
-          if [ -n "$files" ] && echo "$files" | xargs grep -lE '^(<<<<<<<|=======|>>>>>>>)' 2>/dev/null; then
-            echo "::error::暂存文件包含未解决的合并冲突标记，中止提交"
-            exit 1
-          fi
-          git diff --staged --quiet || git commit -m "$(TZ="Asia/Shanghai" date +'%Y-%m-%d %H:%M')"
-          git push
+      shell: bash
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git pull --rebase --autostash || { echo "::error::git pull --rebase 失败（推送竞争），中止提交"; exit 1; }
+        git add ${{ inputs.files }}
+        files=$(git diff --staged --name-only)
+        # autostash pop 冲突会把未解决的冲突标记写进文件，禁止将其提交
+        if [ -n "$files" ] && echo "$files" | xargs grep -lE '^(<<<<<<<|=======|>>>>>>>)' 2>/dev/null; then
+          echo "::error::暂存文件包含未解决的合并冲突标记，中止提交"
+          exit 1
+        fi
+        git diff --staged --quiet || git commit -m "$(TZ="Asia/Shanghai" date +'%Y-%m-%d %H:%M')"
+        git push
