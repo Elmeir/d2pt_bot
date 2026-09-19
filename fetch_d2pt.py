@@ -185,8 +185,15 @@ def save_positions(positions):
     """将各位置数据合并写入 d2pt_pos.json，保存时对存量数据做更新。"""
     existing = {}
     if os.path.exists(OUTPUT_FILE):
-        with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-            existing = json.load(f)
+        try:
+            with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+        except ValueError as e:
+            # 存量文件损坏（如含未解决的合并冲突标记）：备份后从空重建，
+            # 宁可丢快照型存量也不要让 CI 反复失败
+            broken = OUTPUT_FILE + ".broken"
+            os.replace(OUTPUT_FILE, broken)
+            print(f"警告：存量 {OUTPUT_FILE} 损坏（{e}），已备份为 {broken}，从空重建")
 
     data = {}
     for pos in range(1, 6):
