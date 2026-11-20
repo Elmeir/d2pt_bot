@@ -67,8 +67,9 @@ LOCALE_PAIR_RE = re.compile(
     r'"DOTA_Tooltip_ability_(special_bonus_[^"]+)"\s*"([^"]*)"', re.IGNORECASE)
 # name_loc 中的占位符，如 {s:value}、{s:bonus_AbilityChannelTime}
 PLACEHOLDER_RE = re.compile(r"\{s:([^}]+)\}")
-# KV 中天赋增量对
-KV_PAIR_RE = re.compile(r'"(special_bonus_[^"]+)"\s*"([^"]*)"')
+# KV 中天赋增量对（键值必在同一行；[ \t]* 避免跨行误匹配
+# 天赋树映射表里 "10" "special_bonus_xxx" 的下一行等级数字）
+KV_PAIR_RE = re.compile(r'"(special_bonus_[^"]+)"[ \t]*"([^"]*)"')
 
 
 def simplify_talent_name(name: str) -> str:
@@ -104,9 +105,15 @@ def _fetch_text_mirrored(path: str) -> str:
 
 
 def get_hero_npcs() -> list[str]:
-    """从 d2vpkr npc_heroes.txt 顶层键解析英雄 npc 名（排除非英雄）。"""
+    """从 d2vpkr npc_heroes.txt 解析英雄 npc 名（排除非英雄）。
+
+    现行文件把英雄拆成独立文件，以 #base "heroes/npc_dota_hero_xxx.txt"
+    引用；旧版则在顶层直接定义 "npc_dota_hero_xxx" 块。两种写法都支持。
+    """
     text = _fetch_text_mirrored(HEROES_PATH)
-    npcs = re.findall(r'^\t"(npc_dota_hero_[^"]+)"', text, re.MULTILINE)
+    npcs = re.findall(r'#base\s+"heroes/([^"]+)\.txt"', text)
+    if not npcs:
+        npcs = re.findall(r'^\t"(npc_dota_hero_[^"]+)"', text, re.MULTILINE)
     return [npc for npc in npcs if npc not in NON_HERO_NPCS]
 
 
@@ -343,6 +350,9 @@ def main() -> None:
     # 1. 英雄名单（npc 名用于 KV 文件名）
     print("从 npc_heroes.txt 解析英雄名单 ...")
     npcs = get_hero_npcs()
+    if not npcs:
+        # 名单为空时继续构建只会产出残缺结果，被存量合并掩盖后难以察觉
+        raise SystemExit("错误：npc_heroes.txt 中未解析到任何英雄，数据源格式可能已变更")
     print(f"  共 {len(npcs)} 个英雄")
 
     # 2. 本地化名称
@@ -354,6 +364,9 @@ def main() -> None:
     print(f"并行下载 {len(npcs)} 个英雄 KV 文件（{KV_DL_WORKERS} 线程）...")
     kv_texts = download_hero_kvs(npcs)
     print(f"  成功 {len(kv_texts)}/{len(npcs)}")
+    if len(kv_texts) < len(npcs):
+        print(f"  警告：{len(npcs) - len(kv_texts)} 个英雄 KV 未获取，"
+              f"其天赋将沿用存量数据")
     ab_text = _fetch_text_mirrored(ABILITIES_PATH)
     deltas = collect_pair_deltas(kv_texts, ab_text)
     print(f"  汇总 {len(deltas)} 个天赋的增量对")
