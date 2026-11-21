@@ -1,11 +1,13 @@
 name: d2pt core build
 
-# 每 7 天自动更新一次 d2pt_core_build.json
-# - 定时：每周日 UTC 0:20 运行（即每周一次）
-# - 手动：支持在 GitHub Actions 页面手动触发
+# 每日检查并按版本节奏更新 d2pt_core_build.json
+# - 节奏：新版本更新后第 1 周每天、第 2 周每 2 天、之后每 3 天
+#   （数据源 data/patch_date.json，由 patch_date.yml 每日维护）
+# - 定时：每日 UTC 0:20 运行，未到更新时间时脚本自行跳过
+# - 手动：支持在 GitHub Actions 页面手动触发，始终执行
 on:
   schedule:
-    - cron: '20 0 * * 0'
+    - cron: '20 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -31,6 +33,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run fetch script
+        env:
+          # 仅定时触发时按版本节奏门控，手动触发始终执行
+          D2PT_EVENT: ${{ github.event_name }}
         run: python fetch_d2pt_build.py
 
       - name: Commit and push

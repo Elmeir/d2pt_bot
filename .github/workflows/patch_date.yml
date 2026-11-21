@@ -1,0 +1,45 @@
+name: patch date
+
+# 每日抓取 Dota 2 官方补丁列表，维护 data/patch_date.json（版本号 -> 更新日期）
+# - 定时：每日 UTC 0:10 运行
+# - 手动：支持在 GitHub Actions 页面手动触发
+# - 新版本：提交数据后触发一次 talents_cn.yml
+#   （d2pt_build.yml 的构建节奏由 fetch_d2pt_build.py 读取该文件决定）
+on:
+  schedule:
+    - cron: '10 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  # 提交 data/patch_date.json
+  contents: write
+  # 触发 talents_cn.yml
+  actions: write
+
+jobs:
+  update-patch-date:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run fetch script
+        id: fetch
+        run: python fetch_patch_date.py
+
+      - name: Commit and push
+        uses: ./.github/actions/commit-push
+        with:
+          files: data/patch_date.json
+
+      - name: Trigger talents cn workflow
+        if: steps.fetch.outputs.new_patch == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run talents_cn.yml --repo "${{ github.repository }}" --ref "${{ github.ref_name }}"

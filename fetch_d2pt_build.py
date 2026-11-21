@@ -9,6 +9,9 @@ GitHub Actions 自动化抓取脚本：定期更新 d2pt_core_build.json。
     - 重试机制：单个位置最多重试 3 次，指数退避
     - 无代理模式：通过环境变量 D2PT_PROXY="" 禁用 SOCKS5 代理（用于 CI 环境）
     - 容错退出：致命错误（如英雄列表获取失败）时正常退出（exit 0），保留原数据
+    - 版本节奏：定时触发（D2PT_EVENT=schedule）时，按 data/patch_date.json
+      的最新版本日期决定是否执行：新版本第 1 周每天、第 2 周每 2 天、之后每 3 天；
+      手动触发始终执行
 
 依赖安装：
     pip install curl_cffi
@@ -24,6 +27,7 @@ import random
 import sys
 import threading
 import time
+from datetime import datetime, timedelta, timezone
 
 from curl_cffi import requests as cffi_requests
 
@@ -40,6 +44,10 @@ from fetch_d2pt_build_api import (
 )
 
 DATABASE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "d2pt_core_build.json")
+# 版本日期数据（由 fetch_patch_date.py 维护），决定定时构建的节奏
+PATCH_DATE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "patch_date.json")
+# 项目数据统一使用北京时间
+BEIJING_TZ = timezone(timedelta(hours=8))
 # 最大并发请求数（CI 环境降低并发以减少 Cloudflare 拦截风险）
 CONCURRENCY = 3
 # 单个请求超时（秒）
@@ -291,12 +299,47 @@ async def build_hero_entry_async(
     return entry, success_count, failed_count
 
 
+def _latest_patch_date() -> str | None:
+    """读取 data/patch_date.json 中最新的版本更新日期；缺失或损坏返回 None。"""
+    try:
+        with open(PATCH_DATE_FILE, "r", encoding="utf-8") as f:
+            patches = json.load(f)
+        if not isinstance(patches, dict) or not patches:
+            return None
+        return max(str(v) for v in patches.values())
+    except (OSError, ValueError):
+        return None
+
+
+def is_build_due(today=None) -> bool:
+    """按版本节奏判断本次定时构建是否到期。
+
+    新版本更新后第 1 周（0-6 天）每天、第 2 周（7-13 天）每 2 天、
+    之后（14 天起）每 3 天。无 patch_date.json 时默认执行。
+    """
+    latest = _latest_patch_date()
+    if latest is None:
+        return True
+    today = today or datetime.now(BEIJING_TZ).date()
+    days = (today - datetime.strptime(latest, "%Y-%m-%d").date()).days
+    if days < 7:
+        return True
+    if days < 14:
+        return (days - 7) % 2 == 0
+    return (days - 14) % 3 == 0
+
+
 async def main_async() -> int:
     """主函数。返回退出码（0=正常，1=致命错误）。
 
     即使发生致命错误也返回 0，以确保 workflow 的 push 步骤能执行（保留原数据）。
     仅当无法获取英雄列表且无原数据时返回 1。
     """
+    # 定时触发时按版本节奏门控；手动触发（或本地运行）始终执行
+    if os.environ.get("D2PT_EVENT") == "schedule" and not is_build_due():
+        print("按版本节奏本日无需构建（见 data/patch_date.json），跳过")
+        return 0
+
     sem = asyncio.Semaphore(CONCURRENCY)
     start_time = time.time()
 
