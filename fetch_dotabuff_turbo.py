@@ -116,6 +116,21 @@ def main():
         ).strftime("%Y-%m-%d %H:%M:%S"),
         "heroes": heroes,
     }
+
+    # 数据无变化时不写文件，避免仅因 fetched_at 变更产生无意义的提交
+    existing = None
+    if os.path.exists(output_file):
+        try:
+            with open(output_file, "r", encoding="utf-8") as f:
+                existing = json.load(f)
+        except ValueError:
+            pass
+    if existing and all(
+        existing.get(key) == result[key] for key in ("source", "mode", "date", "rank_tier", "heroes")
+    ):
+        print(f"数据无变化，跳过写入 {output_file}")
+        return
+
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
