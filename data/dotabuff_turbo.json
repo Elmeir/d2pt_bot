@@ -1,0 +1,1269 @@
+{
+  "source": "https://www.dotabuff.com/heroes?show=heroes&view=meta&mode=turbo&date=7d&rankTier=immortal",
+  "mode": "turbo",
+  "date": "7d",
+  "rank_tier": "immortal",
+  "fetched_at": "2026-11-23 18:27:29",
+  "heroes": [
+    {
+      "hero": "Primal Beast",
+      "slug": "primal-beast",
+      "tier": "S",
+      "win_rate": 60.49,
+      "win_rate_change": 2.07,
+      "pick_rate": 6.85,
+      "pick_rate_change": 0.62,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Abaddon",
+      "slug": "abaddon",
+      "tier": "S",
+      "win_rate": 57.91,
+      "win_rate_change": -5.73,
+      "pick_rate": 7.11,
+      "pick_rate_change": 3.26,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Dazzle",
+      "slug": "dazzle",
+      "tier": "S",
+      "win_rate": 57.72,
+      "win_rate_change": -2.77,
+      "pick_rate": 7.06,
+      "pick_rate_change": 1.39,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Slark",
+      "slug": "slark",
+      "tier": "S",
+      "win_rate": 55.78,
+      "win_rate_change": -2.62,
+      "pick_rate": 16.74,
+      "pick_rate_change": -1.61,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Visage",
+      "slug": "visage",
+      "tier": "S",
+      "win_rate": 57.89,
+      "win_rate_change": 11.23,
+      "pick_rate": 1.28,
+      "pick_rate_change": 0.23,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Phantom Assassin",
+      "slug": "phantom-assassin",
+      "tier": "S",
+      "win_rate": 54.99,
+      "win_rate_change": 2.71,
+      "pick_rate": 20.33,
+      "pick_rate_change": 1.84,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Grimstroke",
+      "slug": "grimstroke",
+      "tier": "S",
+      "win_rate": 56.18,
+      "win_rate_change": 0.0,
+      "pick_rate": 7.18,
+      "pick_rate_change": 0.95,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Doom",
+      "slug": "doom",
+      "tier": "S",
+      "win_rate": 56.47,
+      "win_rate_change": -2.74,
+      "pick_rate": 4.31,
+      "pick_rate_change": -1.01,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Vengeful Spirit",
+      "slug": "vengeful-spirit",
+      "tier": "S",
+      "win_rate": 55.58,
+      "win_rate_change": 0.42,
+      "pick_rate": 9.63,
+      "pick_rate_change": -1.92,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Invoker",
+      "slug": "invoker",
+      "tier": "S",
+      "win_rate": 52.68,
+      "win_rate_change": -1.0,
+      "pick_rate": 29.84,
+      "pick_rate_change": -4.47,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Marci",
+      "slug": "marci",
+      "tier": "S",
+      "win_rate": 55.84,
+      "win_rate_change": 3.6,
+      "pick_rate": 3.98,
+      "pick_rate_change": -0.71,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Faceless Void",
+      "slug": "faceless-void",
+      "tier": "S",
+      "win_rate": 54.93,
+      "win_rate_change": -4.1,
+      "pick_rate": 9.6,
+      "pick_rate_change": -0.48,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Nyx Assassin",
+      "slug": "nyx-assassin",
+      "tier": "S",
+      "win_rate": 53.83,
+      "win_rate_change": -3.78,
+      "pick_rate": 14.02,
+      "pick_rate_change": -1.18,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Lich",
+      "slug": "lich",
+      "tier": "A",
+      "win_rate": 54.01,
+      "win_rate_change": -1.22,
+      "pick_rate": 10.11,
+      "pick_rate_change": -1.93,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Rubick",
+      "slug": "rubick",
+      "tier": "A",
+      "win_rate": 50.64,
+      "win_rate_change": -3.22,
+      "pick_rate": 33.6,
+      "pick_rate_change": -0.85,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Oracle",
+      "slug": "oracle",
+      "tier": "A",
+      "win_rate": 54.57,
+      "win_rate_change": 4.03,
+      "pick_rate": 6.1,
+      "pick_rate_change": -0.41,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Void Spirit",
+      "slug": "void-spirit",
+      "tier": "A",
+      "win_rate": 54.43,
+      "win_rate_change": 8.77,
+      "pick_rate": 5.82,
+      "pick_rate_change": -0.62,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Monkey King",
+      "slug": "monkey-king",
+      "tier": "A",
+      "win_rate": 54.07,
+      "win_rate_change": -0.36,
+      "pick_rate": 8.21,
+      "pick_rate_change": 2.68,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Wraith King",
+      "slug": "wraith-king",
+      "tier": "A",
+      "win_rate": 53.72,
+      "win_rate_change": -10.38,
+      "pick_rate": 10.34,
+      "pick_rate_change": 2.15,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Omniknight",
+      "slug": "omniknight",
+      "tier": "A",
+      "win_rate": 54.36,
+      "win_rate_change": 6.74,
+      "pick_rate": 3.78,
+      "pick_rate_change": 0.84,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Pudge",
+      "slug": "pudge",
+      "tier": "A",
+      "win_rate": 49.08,
+      "win_rate_change": -3.57,
+      "pick_rate": 40.45,
+      "pick_rate_change": -1.85,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Ogre Magi",
+      "slug": "ogre-magi",
+      "tier": "A",
+      "win_rate": 51.9,
+      "win_rate_change": -3.93,
+      "pick_rate": 19.54,
+      "pick_rate_change": -2.66,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Dragon Knight",
+      "slug": "dragon-knight",
+      "tier": "A",
+      "win_rate": 53.62,
+      "win_rate_change": 6.75,
+      "pick_rate": 7.34,
+      "pick_rate_change": 0.62,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Phantom Lancer",
+      "slug": "phantom-lancer",
+      "tier": "A",
+      "win_rate": 52.98,
+      "win_rate_change": 1.02,
+      "pick_rate": 11.61,
+      "pick_rate_change": 2.72,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Night Stalker",
+      "slug": "night-stalker",
+      "tier": "A",
+      "win_rate": 54.26,
+      "win_rate_change": 8.8,
+      "pick_rate": 2.68,
+      "pick_rate_change": 1.14,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Tidehunter",
+      "slug": "tidehunter",
+      "tier": "A",
+      "win_rate": 53.01,
+      "win_rate_change": 4.94,
+      "pick_rate": 11.38,
+      "pick_rate_change": -1.3,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Earthshaker",
+      "slug": "earthshaker",
+      "tier": "A",
+      "win_rate": 50.89,
+      "win_rate_change": -3.4,
+      "pick_rate": 21.26,
+      "pick_rate_change": 0.88,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Sniper",
+      "slug": "sniper",
+      "tier": "A",
+      "win_rate": 49.89,
+      "win_rate_change": 2.49,
+      "pick_rate": 27.07,
+      "pick_rate_change": -2.62,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Ursa",
+      "slug": "ursa",
+      "tier": "A",
+      "win_rate": 52.73,
+      "win_rate_change": -6.36,
+      "pick_rate": 6.96,
+      "pick_rate_change": -0.74,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Magnus",
+      "slug": "magnus",
+      "tier": "A",
+      "win_rate": 51.22,
+      "win_rate_change": 2.3,
+      "pick_rate": 16.95,
+      "pick_rate_change": -2.52,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Underlord",
+      "slug": "underlord",
+      "tier": "A",
+      "win_rate": 53.06,
+      "win_rate_change": -6.94,
+      "pick_rate": 3.31,
+      "pick_rate_change": -0.54,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Crystal Maiden",
+      "slug": "crystal-maiden",
+      "tier": "A",
+      "win_rate": 51.9,
+      "win_rate_change": -2.15,
+      "pick_rate": 10.89,
+      "pick_rate_change": -2.07,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Zeus",
+      "slug": "zeus",
+      "tier": "B",
+      "win_rate": 50.96,
+      "win_rate_change": -0.14,
+      "pick_rate": 16.75,
+      "pick_rate_change": -2.3,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Skywrath Mage",
+      "slug": "skywrath-mage",
+      "tier": "B",
+      "win_rate": 52.05,
+      "win_rate_change": 7.99,
+      "pick_rate": 8.88,
+      "pick_rate_change": -1.13,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Io",
+      "slug": "io",
+      "tier": "B",
+      "win_rate": 52.59,
+      "win_rate_change": 3.2,
+      "pick_rate": 5.06,
+      "pick_rate_change": -0.61,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Ancient Apparition",
+      "slug": "ancient-apparition",
+      "tier": "B",
+      "win_rate": 51.57,
+      "win_rate_change": -11.91,
+      "pick_rate": 10.24,
+      "pick_rate_change": 2.19,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Disruptor",
+      "slug": "disruptor",
+      "tier": "B",
+      "win_rate": 52.17,
+      "win_rate_change": -6.36,
+      "pick_rate": 5.44,
+      "pick_rate_change": -0.3,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Sven",
+      "slug": "sven",
+      "tier": "B",
+      "win_rate": 51.82,
+      "win_rate_change": -1.34,
+      "pick_rate": 6.96,
+      "pick_rate_change": 1.43,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Bristleback",
+      "slug": "bristleback",
+      "tier": "B",
+      "win_rate": 51.94,
+      "win_rate_change": -1.9,
+      "pick_rate": 5.87,
+      "pick_rate_change": 1.32,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Mirana",
+      "slug": "mirana",
+      "tier": "B",
+      "win_rate": 51.01,
+      "win_rate_change": -7.87,
+      "pick_rate": 11.66,
+      "pick_rate_change": -0.95,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Clockwerk",
+      "slug": "clockwerk",
+      "tier": "B",
+      "win_rate": 51.95,
+      "win_rate_change": -2.29,
+      "pick_rate": 4.77,
+      "pick_rate_change": 0.64,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Clinkz",
+      "slug": "clinkz",
+      "tier": "B",
+      "win_rate": 51.85,
+      "win_rate_change": 1.85,
+      "pick_rate": 5.49,
+      "pick_rate_change": -2.07,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Anti-Mage",
+      "slug": "anti-mage",
+      "tier": "B",
+      "win_rate": 50.95,
+      "win_rate_change": -0.7,
+      "pick_rate": 11.56,
+      "pick_rate_change": -1.19,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Timbersaw",
+      "slug": "timbersaw",
+      "tier": "B",
+      "win_rate": 51.91,
+      "win_rate_change": -10.28,
+      "pick_rate": 4.64,
+      "pick_rate_change": -1.1,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Shadow Demon",
+      "slug": "shadow-demon",
+      "tier": "B",
+      "win_rate": 51.92,
+      "win_rate_change": -2.92,
+      "pick_rate": 4.39,
+      "pick_rate_change": 2.22,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Outworld Destroyer",
+      "slug": "outworld-destroyer",
+      "tier": "B",
+      "win_rate": 51.6,
+      "win_rate_change": 5.73,
+      "pick_rate": 6.6,
+      "pick_rate_change": -1.03,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Chaos Knight",
+      "slug": "chaos-knight",
+      "tier": "B",
+      "win_rate": 50.73,
+      "win_rate_change": 1.75,
+      "pick_rate": 10.94,
+      "pick_rate_change": 7.51,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Drow Ranger",
+      "slug": "drow-ranger",
+      "tier": "B",
+      "win_rate": 49.61,
+      "win_rate_change": -2.34,
+      "pick_rate": 17.26,
+      "pick_rate_change": -0.67,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Enchantress",
+      "slug": "enchantress",
+      "tier": "B",
+      "win_rate": 51.38,
+      "win_rate_change": -12.51,
+      "pick_rate": 2.45,
+      "pick_rate_change": -0.07,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Enigma",
+      "slug": "enigma",
+      "tier": "B",
+      "win_rate": 50.99,
+      "win_rate_change": -1.64,
+      "pick_rate": 4.69,
+      "pick_rate_change": -0.63,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Luna",
+      "slug": "luna",
+      "tier": "B",
+      "win_rate": 49.93,
+      "win_rate_change": 2.72,
+      "pick_rate": 11.61,
+      "pick_rate_change": -2.19,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Windranger",
+      "slug": "windranger",
+      "tier": "B",
+      "win_rate": 49.25,
+      "win_rate_change": 5.42,
+      "pick_rate": 16.25,
+      "pick_rate_change": -1.33,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Spectre",
+      "slug": "spectre",
+      "tier": "B",
+      "win_rate": 50.68,
+      "win_rate_change": 12.13,
+      "pick_rate": 5.55,
+      "pick_rate_change": -0.26,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Beastmaster",
+      "slug": "beastmaster",
+      "tier": "B",
+      "win_rate": 51.06,
+      "win_rate_change": 31.06,
+      "pick_rate": 2.8,
+      "pick_rate_change": 1.4,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Mars",
+      "slug": "mars",
+      "tier": "B",
+      "win_rate": 50.54,
+      "win_rate_change": -21.08,
+      "pick_rate": 6.29,
+      "pick_rate_change": 1.11,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Juggernaut",
+      "slug": "juggernaut",
+      "tier": "B",
+      "win_rate": 48.71,
+      "win_rate_change": -4.03,
+      "pick_rate": 19.05,
+      "pick_rate_change": 2.45,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Lion",
+      "slug": "lion",
+      "tier": "B",
+      "win_rate": 48.77,
+      "win_rate_change": 6.32,
+      "pick_rate": 17.87,
+      "pick_rate_change": 0.71,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Witch Doctor",
+      "slug": "witch-doctor",
+      "tier": "B",
+      "win_rate": 49.56,
+      "win_rate_change": -1.25,
+      "pick_rate": 11.51,
+      "pick_rate_change": -1.45,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Lifestealer",
+      "slug": "lifestealer",
+      "tier": "B",
+      "win_rate": 49.95,
+      "win_rate_change": -9.83,
+      "pick_rate": 8.66,
+      "pick_rate_change": 2.22,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Leshrac",
+      "slug": "leshrac",
+      "tier": "B",
+      "win_rate": 50.46,
+      "win_rate_change": 5.0,
+      "pick_rate": 4.62,
+      "pick_rate_change": 0.77,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Ringmaster",
+      "slug": "ringmaster",
+      "tier": "B",
+      "win_rate": 50.26,
+      "win_rate_change": 0.26,
+      "pick_rate": 4.93,
+      "pick_rate_change": 0.59,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Sand King",
+      "slug": "sand-king",
+      "tier": "B",
+      "win_rate": 49.78,
+      "win_rate_change": 0.55,
+      "pick_rate": 7.71,
+      "pick_rate_change": 3.16,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Warlock",
+      "slug": "warlock",
+      "tier": "B",
+      "win_rate": 50.19,
+      "win_rate_change": 8.33,
+      "pick_rate": 4.51,
+      "pick_rate_change": 1.5,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Riki",
+      "slug": "riki",
+      "tier": "B",
+      "win_rate": 49.46,
+      "win_rate_change": 5.64,
+      "pick_rate": 9.4,
+      "pick_rate_change": 3.17,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Tusk",
+      "slug": "tusk",
+      "tier": "B",
+      "win_rate": 49.81,
+      "win_rate_change": 8.05,
+      "pick_rate": 6.65,
+      "pick_rate_change": 0.28,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Bane",
+      "slug": "bane",
+      "tier": "B",
+      "win_rate": 50.3,
+      "win_rate_change": 10.3,
+      "pick_rate": 2.84,
+      "pick_rate_change": 0.04,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Shadow Shaman",
+      "slug": "shadow-shaman",
+      "tier": "B",
+      "win_rate": 49.43,
+      "win_rate_change": 3.56,
+      "pick_rate": 8.82,
+      "pick_rate_change": -0.49,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Techies",
+      "slug": "techies",
+      "tier": "B",
+      "win_rate": 48.99,
+      "win_rate_change": 0.14,
+      "pick_rate": 11.3,
+      "pick_rate_change": -3.9,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Largo",
+      "slug": "largo",
+      "tier": "B",
+      "win_rate": 50.15,
+      "win_rate_change": 14.86,
+      "pick_rate": 2.83,
+      "pick_rate_change": 0.45,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Venomancer",
+      "slug": "venomancer",
+      "tier": "C",
+      "win_rate": 48.91,
+      "win_rate_change": 0.63,
+      "pick_rate": 7.34,
+      "pick_rate_change": -0.78,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Dark Seer",
+      "slug": "dark-seer",
+      "tier": "C",
+      "win_rate": 49.12,
+      "win_rate_change": -6.43,
+      "pick_rate": 5.78,
+      "pick_rate_change": -0.52,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Dawnbreaker",
+      "slug": "dawnbreaker",
+      "tier": "C",
+      "win_rate": 49.3,
+      "win_rate_change": 8.63,
+      "pick_rate": 4.25,
+      "pick_rate_change": 0.12,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Naga Siren",
+      "slug": "naga-siren",
+      "tier": "C",
+      "win_rate": 49.54,
+      "win_rate_change": -21.05,
+      "pick_rate": 1.84,
+      "pick_rate_change": 0.65,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Queen of Pain",
+      "slug": "queen-of-pain",
+      "tier": "C",
+      "win_rate": 48.33,
+      "win_rate_change": -0.98,
+      "pick_rate": 8.83,
+      "pick_rate_change": -1.25,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Kunkka",
+      "slug": "kunkka",
+      "tier": "C",
+      "win_rate": 48.8,
+      "win_rate_change": 10.16,
+      "pick_rate": 4.57,
+      "pick_rate_change": 1.49,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Centaur Warrunner",
+      "slug": "centaur-warrunner",
+      "tier": "C",
+      "win_rate": 48.74,
+      "win_rate_change": 8.74,
+      "pick_rate": 4.35,
+      "pick_rate_change": -0.9,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Necrophos",
+      "slug": "necrophos",
+      "tier": "C",
+      "win_rate": 48.0,
+      "win_rate_change": -0.87,
+      "pick_rate": 8.86,
+      "pick_rate_change": -3.46,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Spirit Breaker",
+      "slug": "spirit-breaker",
+      "tier": "C",
+      "win_rate": 47.27,
+      "win_rate_change": 2.5,
+      "pick_rate": 12.52,
+      "pick_rate_change": -6.88,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Huskar",
+      "slug": "huskar",
+      "tier": "C",
+      "win_rate": 48.24,
+      "win_rate_change": -4.04,
+      "pick_rate": 5.27,
+      "pick_rate_change": 2.19,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Undying",
+      "slug": "undying",
+      "tier": "C",
+      "win_rate": 47.75,
+      "win_rate_change": -1.03,
+      "pick_rate": 8.65,
+      "pick_rate_change": 2.91,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Troll Warlord",
+      "slug": "troll-warlord",
+      "tier": "C",
+      "win_rate": 48.51,
+      "win_rate_change": 17.26,
+      "pick_rate": 2.84,
+      "pick_rate_change": 0.6,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Axe",
+      "slug": "axe",
+      "tier": "C",
+      "win_rate": 47.37,
+      "win_rate_change": 0.13,
+      "pick_rate": 10.13,
+      "pick_rate_change": -1.28,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Elder Titan",
+      "slug": "elder-titan",
+      "tier": "C",
+      "win_rate": 48.36,
+      "win_rate_change": -1.64,
+      "pick_rate": 2.57,
+      "pick_rate_change": 0.75,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Phoenix",
+      "slug": "phoenix",
+      "tier": "C",
+      "win_rate": 48.05,
+      "win_rate_change": -1.28,
+      "pick_rate": 3.9,
+      "pick_rate_change": -1.35,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Snapfire",
+      "slug": "snapfire",
+      "tier": "C",
+      "win_rate": 47.32,
+      "win_rate_change": -0.95,
+      "pick_rate": 7.89,
+      "pick_rate_change": -2.26,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Silencer",
+      "slug": "silencer",
+      "tier": "C",
+      "win_rate": 47.08,
+      "win_rate_change": -0.58,
+      "pick_rate": 7.83,
+      "pick_rate_change": 0.34,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Winter Wyvern",
+      "slug": "winter-wyvern",
+      "tier": "C",
+      "win_rate": 47.52,
+      "win_rate_change": 2.75,
+      "pick_rate": 4.61,
+      "pick_rate_change": -0.08,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Legion Commander",
+      "slug": "legion-commander",
+      "tier": "C",
+      "win_rate": 46.78,
+      "win_rate_change": -12.64,
+      "pick_rate": 7.73,
+      "pick_rate_change": 2.9,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Gyrocopter",
+      "slug": "gyrocopter",
+      "tier": "C",
+      "win_rate": 46.97,
+      "win_rate_change": 6.67,
+      "pick_rate": 5.43,
+      "pick_rate_change": 0.74,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Lina",
+      "slug": "lina",
+      "tier": "C",
+      "win_rate": 46.57,
+      "win_rate_change": -1.61,
+      "pick_rate": 7.26,
+      "pick_rate_change": -2.33,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Pugna",
+      "slug": "pugna",
+      "tier": "C",
+      "win_rate": 46.19,
+      "win_rate_change": -1.11,
+      "pick_rate": 9.75,
+      "pick_rate_change": 4.57,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Medusa",
+      "slug": "medusa",
+      "tier": "C",
+      "win_rate": 47.08,
+      "win_rate_change": 19.49,
+      "pick_rate": 2.75,
+      "pick_rate_change": 0.72,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Morphling",
+      "slug": "morphling",
+      "tier": "C",
+      "win_rate": 46.22,
+      "win_rate_change": 7.47,
+      "pick_rate": 8.05,
+      "pick_rate_change": 2.45,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Viper",
+      "slug": "viper",
+      "tier": "C",
+      "win_rate": 46.73,
+      "win_rate_change": 1.9,
+      "pick_rate": 4.39,
+      "pick_rate_change": -1.7,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Shadow Fiend",
+      "slug": "shadow-fiend",
+      "tier": "C",
+      "win_rate": 45.89,
+      "win_rate_change": 7.96,
+      "pick_rate": 9.67,
+      "pick_rate_change": -0.48,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Razor",
+      "slug": "razor",
+      "tier": "C",
+      "win_rate": 46.55,
+      "win_rate_change": 9.6,
+      "pick_rate": 5.03,
+      "pick_rate_change": -1.41,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Ember Spirit",
+      "slug": "ember-spirit",
+      "tier": "C",
+      "win_rate": 46.44,
+      "win_rate_change": 3.41,
+      "pick_rate": 4.39,
+      "pick_rate_change": -1.63,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Storm Spirit",
+      "slug": "storm-spirit",
+      "tier": "C",
+      "win_rate": 46.13,
+      "win_rate_change": -11.01,
+      "pick_rate": 6.34,
+      "pick_rate_change": 0.95,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Lycan",
+      "slug": "lycan",
+      "tier": "C",
+      "win_rate": 46.59,
+      "win_rate_change": -29.27,
+      "pick_rate": 2.85,
+      "pick_rate_change": 0.82,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Tinker",
+      "slug": "tinker",
+      "tier": "D",
+      "win_rate": 45.93,
+      "win_rate_change": -0.82,
+      "pick_rate": 6.24,
+      "pick_rate_change": 0.85,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Muerta",
+      "slug": "muerta",
+      "tier": "D",
+      "win_rate": 46.08,
+      "win_rate_change": 3.23,
+      "pick_rate": 3.67,
+      "pick_rate_change": -1.72,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Weaver",
+      "slug": "weaver",
+      "tier": "D",
+      "win_rate": 45.47,
+      "win_rate_change": 2.22,
+      "pick_rate": 5.87,
+      "pick_rate_change": 0.69,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Dark Willow",
+      "slug": "dark-willow",
+      "tier": "D",
+      "win_rate": 45.57,
+      "win_rate_change": -0.41,
+      "pick_rate": 4.77,
+      "pick_rate_change": -1.32,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Jakiro",
+      "slug": "jakiro",
+      "tier": "D",
+      "win_rate": 45.16,
+      "win_rate_change": 13.45,
+      "pick_rate": 6.98,
+      "pick_rate_change": 1.24,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Puck",
+      "slug": "puck",
+      "tier": "D",
+      "win_rate": 45.61,
+      "win_rate_change": 24.68,
+      "pick_rate": 3.56,
+      "pick_rate_change": 0.55,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Slardar",
+      "slug": "slardar",
+      "tier": "D",
+      "win_rate": 45.52,
+      "win_rate_change": -7.55,
+      "pick_rate": 3.77,
+      "pick_rate_change": 0.34,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Terrorblade",
+      "slug": "terrorblade",
+      "tier": "D",
+      "win_rate": 45.45,
+      "win_rate_change": 5.8,
+      "pick_rate": 4.09,
+      "pick_rate_change": 0.03,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Nature's Prophet",
+      "slug": "natures-prophet",
+      "tier": "D",
+      "win_rate": 44.06,
+      "win_rate_change": 4.85,
+      "pick_rate": 7.4,
+      "pick_rate_change": 0.26,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Batrider",
+      "slug": "batrider",
+      "tier": "D",
+      "win_rate": 44.63,
+      "win_rate_change": 14.63,
+      "pick_rate": 2.52,
+      "pick_rate_change": 1.12,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Hoodwink",
+      "slug": "hoodwink",
+      "tier": "D",
+      "win_rate": 43.77,
+      "win_rate_change": -1.01,
+      "pick_rate": 6.51,
+      "pick_rate_change": 1.82,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Tiny",
+      "slug": "tiny",
+      "tier": "D",
+      "win_rate": 43.75,
+      "win_rate_change": 3.91,
+      "pick_rate": 6.22,
+      "pick_rate_change": -2.39,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Earth Spirit",
+      "slug": "earth-spirit",
+      "tier": "D",
+      "win_rate": 43.76,
+      "win_rate_change": -10.79,
+      "pick_rate": 5.62,
+      "pick_rate_change": -0.54,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Alchemist",
+      "slug": "alchemist",
+      "tier": "D",
+      "win_rate": 43.78,
+      "win_rate_change": -14.91,
+      "pick_rate": 3.13,
+      "pick_rate_change": -0.09,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Arc Warden",
+      "slug": "arc-warden",
+      "tier": "D",
+      "win_rate": 43.75,
+      "win_rate_change": 5.45,
+      "pick_rate": 3.25,
+      "pick_rate_change": -0.04,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Bounty Hunter",
+      "slug": "bounty-hunter",
+      "tier": "D",
+      "win_rate": 43.08,
+      "win_rate_change": -7.54,
+      "pick_rate": 3.79,
+      "pick_rate_change": -1.88,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Bloodseeker",
+      "slug": "bloodseeker",
+      "tier": "D",
+      "win_rate": 43.2,
+      "win_rate_change": -1.54,
+      "pick_rate": 2.48,
+      "pick_rate_change": -0.18,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Templar Assassin",
+      "slug": "templar-assassin",
+      "tier": "D",
+      "win_rate": 42.03,
+      "win_rate_change": -14.79,
+      "pick_rate": 3.08,
+      "pick_rate_change": 0.0,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Keeper of the Light",
+      "slug": "keeper-of-the-light",
+      "tier": "D",
+      "win_rate": 41.97,
+      "win_rate_change": 2.94,
+      "pick_rate": 2.58,
+      "pick_rate_change": -0.29,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Death Prophet",
+      "slug": "death-prophet",
+      "tier": "D",
+      "win_rate": 40.87,
+      "win_rate_change": 2.77,
+      "pick_rate": 7.22,
+      "pick_rate_change": 4.28,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Broodmother",
+      "slug": "broodmother",
+      "tier": "D",
+      "win_rate": 41.4,
+      "win_rate_change": 10.15,
+      "pick_rate": 1.57,
+      "pick_rate_change": 0.45,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Kez",
+      "slug": "kez",
+      "tier": "D",
+      "win_rate": 40.76,
+      "win_rate_change": -5.49,
+      "pick_rate": 5.54,
+      "pick_rate_change": -0.06,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Pangolier",
+      "slug": "pangolier",
+      "tier": "D",
+      "win_rate": 39.77,
+      "win_rate_change": 1.22,
+      "pick_rate": 4.42,
+      "pick_rate_change": -1.39,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Meepo",
+      "slug": "meepo",
+      "tier": "D",
+      "win_rate": 38.64,
+      "win_rate_change": 11.97,
+      "pick_rate": 1.86,
+      "pick_rate_change": 0.81,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Treant Protector",
+      "slug": "treant-protector",
+      "tier": "D",
+      "win_rate": 37.89,
+      "win_rate_change": 2.41,
+      "pick_rate": 2.16,
+      "pick_rate_change": -0.01,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Brewmaster",
+      "slug": "brewmaster",
+      "tier": "D",
+      "win_rate": 37.5,
+      "win_rate_change": 2.5,
+      "pick_rate": 1.49,
+      "pick_rate_change": 0.09,
+      "ban_rate": 0.0
+    },
+    {
+      "hero": "Lone Druid",
+      "slug": "lone-druid",
+      "tier": "D",
+      "win_rate": 34.05,
+      "win_rate_change": 26.36,
+      "pick_rate": 1.56,
+      "pick_rate_change": -0.26,
+      "ban_rate": 0.0
+    }
+  ]
+}
