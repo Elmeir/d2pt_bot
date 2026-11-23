@@ -9,6 +9,7 @@ import json
 import html
 import time
 import argparse
+import urllib.request
 from datetime import datetime, timedelta, timezone
 
 from curl_cffi import requests
@@ -48,7 +49,28 @@ def fetch_html(url, attempts=6, interval=5):
             last = str(e)
         if i < attempts - 1:
             time.sleep(interval)
-    raise SystemExit(f"抓取失败（已重试 {attempts} 次）：{last}，疑似被 Cloudflare 拦截")
+    print(f"直连失败（已重试 {attempts} 次）：{last}，改用 r.jina.ai 兜底")
+    return fetch_via_jina(url)
+
+
+def fetch_via_jina(url):
+    """兜底：通过 r.jina.ai 读取页面 HTML。
+
+    CI 出口 IP 容易被 Cloudflare 整段拦截，jina 服务端抓取可绕过；
+    返回值仍是原始 HTML，表格结构与直连一致。
+    """
+    proxy_url = f"https://r.jina.ai/{url}"
+    req = urllib.request.Request(
+        proxy_url, headers={"User-Agent": "Mozilla/5.0", "X-Return-Format": "html"}
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=120) as resp:
+            page = resp.read().decode("utf-8", "replace")
+    except Exception as e:
+        raise SystemExit(f"r.jina.ai 兜底也失败：{e}")
+    if "<table" not in page:
+        raise SystemExit(f"r.jina.ai 返回内容不含数据表格（{len(page)} 字节），疑似被限流")
+    return page
 
 
 def _text(fragment):
